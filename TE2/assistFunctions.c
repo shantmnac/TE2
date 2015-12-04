@@ -835,6 +835,7 @@ void freeTheList(void){
             tmpStrPointer = tmpS;
         }
         else{
+            tmpCharPointer = tmpStrPointer -> curString;
             while (1) {
                 if (tmpCharPointer -> next != NULL) {
                     tmpC = tmpCharPointer -> next;
