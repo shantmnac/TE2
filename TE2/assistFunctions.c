@@ -835,6 +835,17 @@ void freeTheList(void){
             tmpStrPointer = tmpS;
         }
         else{
+            while (1) {
+                if (tmpCharPointer -> next != NULL) {
+                    tmpC = tmpCharPointer -> next;
+                    free(tmpCharPointer);
+                    tmpCharPointer = tmpC;
+                }
+                else{
+                    free(tmpCharPointer);
+                    break;
+                }
+            }
             free(tmpStrPointer);
             break;
         }
