@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		84C571221C0F67850055FB27 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 84C571211C0F67850055FB27 /* main.c */; };
+		84C571291C0F67A80055FB27 /* textViewCmds.c in Sources */ = {isa = PBXBuildFile; fileRef = 84C571281C0F67A80055FB27 /* textViewCmds.c */; };
+		84C571341C0F67CE0055FB27 /* stringEditCmds.c in Sources */ = {isa = PBXBuildFile; fileRef = 84C5712B1C0F67CE0055FB27 /* stringEditCmds.c */; };
+		84C571351C0F67CE0055FB27 /* stringInsertCmds.c in Sources */ = {isa = PBXBuildFile; fileRef = 84C5712D1C0F67CE0055FB27 /* stringInsertCmds.c */; };
+		84C571361C0F67CE0055FB27 /* techCmds.c in Sources */ = {isa = PBXBuildFile; fileRef = 84C5712F1C0F67CE0055FB27 /* techCmds.c */; };
+		84C571371C0F67CE0055FB27 /* assistFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 84C571311C0F67CE0055FB27 /* assistFunctions.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +30,17 @@
 /* Begin PBXFileReference section */
 		84C5711E1C0F67850055FB27 /* TE2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TE2; sourceTree = BUILT_PRODUCTS_DIR; };
 		84C571211C0F67850055FB27 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		84C571281C0F67A80055FB27 /* textViewCmds.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = textViewCmds.c; sourceTree = "<group>"; };
+		84C5712A1C0F67B50055FB27 /* textViewCmds.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = textViewCmds.h; sourceTree = "<group>"; };
+		84C5712B1C0F67CE0055FB27 /* stringEditCmds.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = stringEditCmds.c; sourceTree = "<group>"; };
+		84C5712C1C0F67CE0055FB27 /* stringEditCmds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stringEditCmds.h; sourceTree = "<group>"; };
+		84C5712D1C0F67CE0055FB27 /* stringInsertCmds.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = stringInsertCmds.c; sourceTree = "<group>"; };
+		84C5712E1C0F67CE0055FB27 /* stringInsertCmds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stringInsertCmds.h; sourceTree = "<group>"; };
+		84C5712F1C0F67CE0055FB27 /* techCmds.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = techCmds.c; sourceTree = "<group>"; };
+		84C571301C0F67CE0055FB27 /* techCmds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = techCmds.h; sourceTree = "<group>"; };
+		84C571311C0F67CE0055FB27 /* assistFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = assistFunctions.c; sourceTree = "<group>"; };
+		84C571321C0F67CE0055FB27 /* assistFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = assistFunctions.h; sourceTree = "<group>"; };
+		84C571331C0F67CE0055FB27 /* struct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = struct.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +74,17 @@
 			isa = PBXGroup;
 			children = (
 				84C571211C0F67850055FB27 /* main.c */,
+				84C571281C0F67A80055FB27 /* textViewCmds.c */,
+				84C5712B1C0F67CE0055FB27 /* stringEditCmds.c */,
+				84C5712D1C0F67CE0055FB27 /* stringInsertCmds.c */,
+				84C571311C0F67CE0055FB27 /* assistFunctions.c */,
+				84C5712F1C0F67CE0055FB27 /* techCmds.c */,
+				84C5712A1C0F67B50055FB27 /* textViewCmds.h */,
+				84C5712C1C0F67CE0055FB27 /* stringEditCmds.h */,
+				84C5712E1C0F67CE0055FB27 /* stringInsertCmds.h */,
+				84C571301C0F67CE0055FB27 /* techCmds.h */,
+				84C571321C0F67CE0055FB27 /* assistFunctions.h */,
+				84C571331C0F67CE0055FB27 /* struct.h */,
 			);
 			path = TE2;
 			sourceTree = "<group>";
@@ -118,7 +145,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84C571341C0F67CE0055FB27 /* stringEditCmds.c in Sources */,
+				84C571291C0F67A80055FB27 /* textViewCmds.c in Sources */,
+				84C571371C0F67CE0055FB27 /* assistFunctions.c in Sources */,
+				84C571351C0F67CE0055FB27 /* stringInsertCmds.c in Sources */,
 				84C571221C0F67850055FB27 /* main.c in Sources */,
+				84C571361C0F67CE0055FB27 /* techCmds.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,6 +269,7 @@
 				84C571271C0F67850055FB27 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
