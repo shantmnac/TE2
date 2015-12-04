@@ -334,12 +334,17 @@ int initFile(void){
         }
         
         if (feof(inputFile)){
+            if (firstIteration) {
+                free(tempNextStr);
+                tempNextStr = tempPrevStr;
+            }
             tmpStrPointer = pointerForStrings;
             tmpCharPointer = pointerForStrings -> curString;
             tempNextStr -> next = NULL;
             fclose(inputFile);
             return 0;
         }
+        
         temp = '!';
         firstIteration = 1;
         tempNextChar->next = NULL;
