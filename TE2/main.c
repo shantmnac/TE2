@@ -26,7 +26,7 @@ int main(int argc, const char * argv[]) {
     fileName = "l.bin";
     parametrs = "0 \"hello world\n";
     initFile();
-    //insertAfter();
+    insertAfter();
     freeTheList();
     //writeF();
     return 0;
