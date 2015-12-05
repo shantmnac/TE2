@@ -23,11 +23,11 @@ struct winsize screenSize;
 int screenCol = 80, screenRow = 25;
 
 int main(int argc, const char * argv[]) {
-    fileName = "l.bin";
+    fileName = "l.txt";
     parametrs = "2";
     initFile();
     deleteRange();
-        writeF();
+    writeF();
     freeTheList();
     return 0;
     
