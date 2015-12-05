@@ -24,11 +24,11 @@ int screenCol = 80, screenRow = 25;
 
 int main(int argc, const char * argv[]) {
     fileName = "l.bin";
-    parametrs = "0 \"hello world\n";
+    parametrs = "2";
     initFile();
-    insertAfter();
+    deleteRange();
+        writeF();
     freeTheList();
-    //writeF();
     return 0;
     
     

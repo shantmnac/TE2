@@ -140,6 +140,11 @@ void writeF(void){
     
     FILE *outputFile = fopen(fileName, "wb");
     
+    if ((pointerForStrings == NULL) || (pointerForStrings -> curString == NULL)) {
+        fclose(outputFile);
+        return;
+    }
+    
     tmpStrPointer = pointerForStrings;
     
     while (tmpStrPointer != NULL) {
