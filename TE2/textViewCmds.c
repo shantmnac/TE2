@@ -282,7 +282,7 @@ void printRange(void){
     }
     
     while ((parametrs[i] != ' ') || (parametrs[i] != '\0')) {
-        startR = startR * degree(10, i) + (int)parametrs[i] - 48;
+        startR = startR * 10 + (int)parametrs[i] - 48;
         i++;
     }
     
@@ -296,7 +296,7 @@ void printRange(void){
     if (parametrs[i] != '\0'){
         i++;
         while ((parametrs[i] != '\0')) {
-            endR = endR * degree(10, i) + (int)parametrs[i] - 48;
+            endR = endR * 10 + (int)parametrs[i] - 48;
             i++;
         }
         

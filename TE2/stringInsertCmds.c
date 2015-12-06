@@ -30,7 +30,7 @@ int insertAfter(void){
                 return 0;
             }
             if (isdigit(parametrs[i])) {
-                strNum = strNum * degree(10, i) + (int)parametrs[i] - 48;
+                strNum = strNum * 10 + (int)parametrs[i] - 48;
                 i++;
             }
             else {

@@ -35,7 +35,7 @@ int deleteRange(void){
     
     while ((parametrs[i] != ' ') && (parametrs[i] != '\0')) {
         if (isdigit(parametrs[i])) {
-            startR = startR * degree(10, j) + (int)parametrs[i] - 48;
+            startR = startR * 10 + (int)parametrs[i] - 48;
             i++;
             j++;
         }
@@ -63,7 +63,7 @@ int deleteRange(void){
     if (parametrs[i] != '\0') {
         while ((parametrs[i] != ' ') && (parametrs[i] != '\0')) {
             if (isdigit(parametrs[i])) {
-                endR = endR * degree(10, j) + (int)parametrs[i] - 48;
+                endR = endR * 10 + (int)parametrs[i] - 48;
                 i++;
                 j++;
             }
@@ -243,7 +243,7 @@ int editString(void){
             return 0;
         }
         if (isdigit(parametrs[i])) {
-            strPosition = strPosition * degree(10, j) + (int)parametrs[i] - 48;
+            strPosition = strPosition * 10 + (int)parametrs[i] - 48;
             i++;
             j++;
         }
@@ -269,7 +269,7 @@ int editString(void){
             return 0;
         }
         if (isdigit(parametrs[i])) {
-            charPosition = charPosition * degree(10, j) + (int)parametrs[i] - 48;
+            charPosition = charPosition * 10 + (int)parametrs[i] - 48;
             i++;
             j++;
         }
@@ -477,7 +477,7 @@ int insertSymbol(void){
             return 0;
         }
         if (isdigit(parametrs[i])) {
-            strPosition = strPosition * degree(10, j) + (int)parametrs[i] - 48;
+            strPosition = strPosition * 10 + (int)parametrs[i] - 48;
             i++;
             j++;
         }
@@ -503,7 +503,7 @@ int insertSymbol(void){
             return 0;
         }
         if (isdigit(parametrs[i])) {
-            charPosition = charPosition * degree(10, j) + (int)parametrs[i] - 48;
+            charPosition = charPosition * 10 + (int)parametrs[i] - 48;
             i++;
             j++;
         }
@@ -578,9 +578,10 @@ int insertSymbol(void){
         charPointer = strPointer -> curString;
     }
     else{
-        strPointer -> curString = (struct listOfChars*)malloc(sizeof(struct listOfChars*));
+        strPointer -> curString = (struct listOfChars*)malloc(sizeof(struct listOfChars));
         charPointer = strPointer -> curString;
-        charPointer -> next = charPointer -> prev = NULL;
+        charPointer -> next = NULL;
+        charPointer -> prev = NULL;
         charPointer -> curChar = insChar;
         return 0;
     }
@@ -597,7 +598,7 @@ int insertSymbol(void){
     
     if (insChar != '\n') {
         if (charPosition != -1) {
-            tmpCharPointer = (struct listOfChars*)malloc(sizeof(struct listOfChars*));
+            tmpCharPointer = (struct listOfChars*)malloc(sizeof(struct listOfChars));
             tmpCharPointer -> curChar = insChar;
             if (charPointer -> prev != NULL) {
                 tmpCharPointer -> prev = charPointer -> prev;
@@ -612,7 +613,7 @@ int insertSymbol(void){
             return 0;
         }
         else{
-            tmpCharPointer = (struct listOfChars*)malloc(sizeof(struct listOfChars*));
+            tmpCharPointer = (struct listOfChars*)malloc(sizeof(struct listOfChars));
             tmpCharPointer -> curChar = insChar;
             tmpCharPointer -> prev = charPointer;
             tmpCharPointer -> next = NULL;
@@ -639,8 +640,8 @@ int insertSymbol(void){
             return 0;
         }
         else {
-            if (charPosition != -1) {
-                tmpCharPointer = (struct listOfChars*)malloc(sizeof(struct listOfChars*));
+            if (charPosition == -1) {
+                tmpCharPointer = (struct listOfChars*)malloc(sizeof(struct listOfChars));
                 tmpCharPointer -> curChar = insChar;
                 tmpCharPointer -> prev = charPointer;
                 charPointer -> next = tmpCharPointer;
