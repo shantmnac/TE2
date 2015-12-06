@@ -82,8 +82,8 @@
 				84C5712A1C0F67B50055FB27 /* textViewCmds.h */,
 				84C5712C1C0F67CE0055FB27 /* stringEditCmds.h */,
 				84C5712E1C0F67CE0055FB27 /* stringInsertCmds.h */,
-				84C571301C0F67CE0055FB27 /* techCmds.h */,
 				84C571321C0F67CE0055FB27 /* assistFunctions.h */,
+				84C571301C0F67CE0055FB27 /* techCmds.h */,
 				84C571331C0F67CE0055FB27 /* struct.h */,
 			);
 			path = TE2;

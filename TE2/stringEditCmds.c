@@ -23,6 +23,8 @@ int deleteRange(void){
     struct listOfStrings *tmpStr, *nextStr, *firstStr;
     
     if ((pointerForStrings == NULL) || (pointerForStrings -> curString == NULL)) {
+        //free(parametrs);
+        parametrs = NULL;
         return 0;
     }
     
@@ -216,7 +218,12 @@ int editString(void){
     struct listOfStrings *strPointer, *nextStrPointer, *tmpStrPointer;
     struct listOfChars *charPointer;
     
-
+    if ((pointerForStrings == NULL) || (pointerForStrings -> curString == NULL)) {
+        //free(parametrs);
+        parametrs = NULL;
+        return 0;
+    }
+    
     if (parametrs == NULL){
         fprintf(stderr, "Неккоректный параметр!\n");
         return 0;
@@ -451,7 +458,6 @@ int insertSymbol(void){
     struct listOfStrings *strPointer, *tmpStrPointer;
     struct listOfChars *charPointer, *tmpCharPointer;
     
-    
     if (parametrs == NULL){
         fprintf(stderr, "Неккоректный параметр!\n");
         return 0;
@@ -556,6 +562,8 @@ int insertSymbol(void){
     
     strPointer = pointerForStrings;
     
+    
+    
     for (i = 1; i < strPosition; i++) {
         if (strPointer -> next != NULL) {
             strPointer = strPointer -> next;
@@ -566,7 +574,16 @@ int insertSymbol(void){
         }
     }
     
-    charPointer = strPointer -> curString;
+    if (strPointer -> curString != NULL) {
+        charPointer = strPointer -> curString;
+    }
+    else{
+        strPointer -> curString = (struct listOfChars*)malloc(sizeof(struct listOfChars*));
+        charPointer = strPointer -> curString;
+        charPointer -> next = charPointer -> prev = NULL;
+        charPointer -> curChar = insChar;
+        return 0;
+    }
     
     for (i = 1; i < charPosition; i++) {
         if (charPointer -> next != NULL) {

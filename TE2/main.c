@@ -23,13 +23,12 @@ struct winsize screenSize;
 int screenCol = 80, screenRow = 25;
 
 int main(int argc, const char * argv[]) {
-    fileName = "l.txt";
+    fileName = "e.txt";
     parametrs = "1 8 W";
     initFile();
+    //deleteRange();
     insertSymbol();
     writeF();
     freeTheList();
     return 0;
-    
-    
 }

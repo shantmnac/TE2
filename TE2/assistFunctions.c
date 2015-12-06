@@ -110,7 +110,6 @@ void moveTxtY(char dir){
             if (tmpStrPointer -> next != NULL) {
                 tmpStrPointer = tmpStrPointer -> next;
                 tmpCharPointer = tmpStrPointer -> curString;
-                //ХУ0Й
                 isItOk = 1;
             }
             else{
@@ -303,6 +302,8 @@ int initFile(void){
     
     tempNextStr = (struct listOfStrings*)malloc(sizeof(struct listOfStrings));
     tempNextStr->prev = NULL;
+    tempNextStr->next = NULL;
+    tempNextStr->curString = NULL;
     pointerForStrings = tempNextStr;
 
     do{
@@ -338,8 +339,8 @@ int initFile(void){
             if (firstIteration) {
                 if (tempPrevStr != NULL){
                     tempPrevStr -> next = NULL;
+                    free(tempNextStr);
                 }
-                free(tempNextStr);
             }
             else {
                 tempNextChar->next = NULL;
@@ -508,7 +509,6 @@ int readCmd(void){
                                 }
                                 else{
                                     fprintf(stderr, "Нарушено сочетание кавычек!\n");
-                                    //ХрУЙ
                                     free(userString);
                                     return 0;
                                 }
@@ -643,7 +643,6 @@ int readCmd(void){
                     }
                     userString[userStringSize] = tempCur;
                     userStringSize++;
-                    //Х9УЙ
                     specSymbol = 0;
                     tempPrev = tempCur;
                     tempCur = getchar();
@@ -829,6 +828,7 @@ void freeTheList(void){
     tmpCharPointer = pointerForStrings -> curString;
     
     if (tmpStrPointer -> curString == NULL) {
+        free(tmpStrPointer);
         return;
     }
     
