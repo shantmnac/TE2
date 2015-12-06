@@ -24,9 +24,9 @@ int screenCol = 80, screenRow = 25;
 
 int main(int argc, const char * argv[]) {
     fileName = "l.txt";
-    parametrs = "2";
+    parametrs = "9 5 \n";
     initFile();
-    deleteRange();
+    editString();
     writeF();
     freeTheList();
     return 0;

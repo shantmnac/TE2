@@ -2,5 +2,6 @@
 #define stringEditCmds_h
 
 int deleteRange(void);
+int editString(void);
 
 #endif

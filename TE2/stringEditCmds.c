@@ -17,7 +17,6 @@ extern struct listOfStrings *tmpStrPointer;
 extern struct listOfChars *tmpCharPointer;
 extern struct listOfStrings *pointerForStrings;
 extern struct winsize screenSize;
-extern int isItOk;
 
 int deleteRange(void){
     int i = 0, j = 0, startR = 0, endR = 0;
@@ -34,13 +33,13 @@ int deleteRange(void){
     
     while ((parametrs[i] != ' ') && (parametrs[i] != '\0')) {
         if (isdigit(parametrs[i])) {
-            startR += atoi(&parametrs[i]) * degree(10, j);
+            startR = startR * degree(10, j) + (int)parametrs[i] - 48;
             i++;
             j++;
         }
         else {
             fprintf(stderr, "Неккоректный параметр!\n");
-            //free(parametrs);
+            ////free(parametrs);
             parametrs = NULL;
             return 0;
         }
@@ -50,7 +49,7 @@ int deleteRange(void){
     
     if (startR == 0) {
         fprintf(stderr, "Неккоректный параметр!\n");
-        //free(parametrs);
+        ////free(parametrs);
         parametrs = NULL;
         return 0;
     }
@@ -62,13 +61,13 @@ int deleteRange(void){
     if (parametrs[i] != '\0') {
         while ((parametrs[i] != ' ') && (parametrs[i] != '\0')) {
             if (isdigit(parametrs[i])) {
-                endR += atoi(&parametrs[i]) * degree(10, j);
+                endR = endR * degree(10, j) + (int)parametrs[i] - 48;
                 i++;
                 j++;
             }
             else {
                 fprintf(stderr, "Неккоректный параметр!\n");
-                //free(parametrs);
+                ////free(parametrs);
                 parametrs = NULL;
                 return 0;
             }
@@ -81,7 +80,7 @@ int deleteRange(void){
     if (endR != -1) {
         if (startR > endR) {
             fprintf(stderr, "Неккоректный параметр!\n");
-            //free(parametrs);
+            ////free(parametrs);
             parametrs = NULL;
             return 0;
         }
@@ -103,12 +102,12 @@ int deleteRange(void){
                     freeTheString(nextStr -> curString);
                     free(nextStr);
                     firstStr -> next = NULL;
-                    //free(parametrs);
+                    ////free(parametrs);
                     parametrs = NULL;
                     return 0;
                 }
             }
-            //free(parametrs);
+            ////free(parametrs);
             parametrs = NULL;
             return 0;
         }
@@ -119,7 +118,7 @@ int deleteRange(void){
                 }
                 else {
                     fprintf(stderr, "Неккоректный параметр!\n");
-                    //free(parametrs);
+                    ////free(parametrs);
                     parametrs = NULL;
                     return 0;
                 }
@@ -139,7 +138,7 @@ int deleteRange(void){
                     freeTheString(nextStr -> curString);
                     free(nextStr);
                     firstStr -> next = NULL;
-                    //free(parametrs);
+                    ////free(parametrs);
                     parametrs = NULL;
                     return 0;
                 }
@@ -159,14 +158,14 @@ int deleteRange(void){
                     freeTheString(nextStr -> curString);
                     free(nextStr);
                     pointerForStrings = NULL;
-                    //free(parametrs);
+                    ////free(parametrs);
                     parametrs = NULL;
                     return 0;
                 }
             }
             nextStr -> prev = NULL;
             pointerForStrings = nextStr;
-            //free(parametrs);
+            ////free(parametrs);
             parametrs = NULL;
             return 0;
         }
@@ -177,7 +176,7 @@ int deleteRange(void){
                 }
                 else {
                     fprintf(stderr, "Неккоректный параметр!\n");
-                    //free(parametrs);
+                    ////free(parametrs);
                     parametrs = NULL;
                     return 0;
                 }
@@ -196,7 +195,7 @@ int deleteRange(void){
                     freeTheString(nextStr -> curString);
                     free(nextStr);
                     firstStr -> next = NULL;
-                    //free(parametrs);
+                    ////free(parametrs);
                     parametrs = NULL;
                     return 0;
                 }
@@ -204,9 +203,241 @@ int deleteRange(void){
             
             firstStr -> next = nextStr;
             nextStr -> prev = firstStr;
+            ////free(parametrs);
+            parametrs = NULL;
+            return 0;
+        }
+    }
+}
+
+int editString(void){
+    int strPosition = 0, charPosition = 0, i = 0, j = 0;
+    char insChar;
+    struct listOfStrings *strPointer, *nextStrPointer, *tmpStrPointer;
+    struct listOfChars *charPointer;
+    
+
+    if (parametrs == NULL){
+        fprintf(stderr, "Неккоректный параметр!\n");
+        return 0;
+    }
+    
+    if (parametrs == NULL){
+        fprintf(stderr, "Неккоректный параметр!\n");
+        //free(parametrs);
+        return 0;
+    }
+    
+    while (parametrs[i] != ' ') {
+        if (parametrs[i] == '\0') {
+            fprintf(stderr, "Неккоректный параметр!\n");
             //free(parametrs);
             parametrs = NULL;
             return 0;
+        }
+        if (isdigit(parametrs[i])) {
+            strPosition = strPosition * degree(10, j) + (int)parametrs[i] - 48;
+            i++;
+            j++;
+        }
+        else {
+            fprintf(stderr, "Неккоректный параметр!\n");
+            //free(parametrs);
+            parametrs = NULL;
+            return 0;
+        }
+    }
+        
+    if (parametrs[i] == ' ') {
+        i++;
+    }
+    
+    j = 0;
+    
+    while (parametrs[i] != ' ') {
+        if (parametrs[i] == '\0') {
+            fprintf(stderr, "Неккоректный параметр!\n");
+            //free(parametrs);
+            parametrs = NULL;
+            return 0;
+        }
+        if (isdigit(parametrs[i])) {
+            charPosition = charPosition * degree(10, j) + (int)parametrs[i] - 48;
+            i++;
+            j++;
+        }
+        else {
+            fprintf(stderr, "Неккоректный параметр!\n");
+            //free(parametrs);
+            parametrs = NULL;
+            return 0;
+        }
+    }
+    
+    if (parametrs[i] == ' ') {
+        i++;
+    }
+    
+    if (parametrs[i] == '\\') {
+        i++;
+        switch (parametrs[i]) {
+            case 'n':{
+                insChar = '\n';
+                break;
+            }
+                
+            case 't':{
+                insChar = '\t';
+                break;
+            }
+                
+            case 'b':{
+                insChar = '\b';
+                break;
+            }
+                
+            case '"':{
+                insChar = '"';
+                break;
+            }
+                
+            case '\\':{
+                insChar = '\\';
+                break;
+            }
+                
+            default:{
+                insChar = parametrs[i];
+                break;
+            }
+        }
+    }
+    else {
+        insChar = parametrs[i];
+    }
+    
+    //free(parametrs);
+    parametrs = NULL;
+    
+    strPointer = pointerForStrings;
+    
+    for (i = 1; i < strPosition; i++) {
+        if (strPointer -> next != NULL) {
+            strPointer = strPointer -> next;
+        }
+        else {
+            fprintf(stderr, "Неккоректный параметр!\n");
+            return 0;
+        }
+    }
+    
+    charPointer = strPointer -> curString;
+    
+    for (i = 1; i < charPosition; i++) {
+        if (charPointer -> next != NULL) {
+            charPointer = charPointer -> next;
+        }
+        else {
+            fprintf(stderr, "Неккоректный параметр!\n");
+            return 0;
+        }
+    }
+    
+    if (insChar != '\n') {
+        charPointer -> curChar = insChar;
+        return 0;
+    }
+    else{
+        if (charPosition == 1) {
+            if (charPointer -> next != NULL){
+                if (strPointer -> next != NULL) {
+                    charPointer -> curChar = '\n';
+                    nextStrPointer = strPointer -> next;
+                    tmpStrPointer = (struct listOfStrings*)malloc(sizeof(struct listOfStrings));
+                    tmpStrPointer -> curString = charPointer -> next;
+                    tmpStrPointer -> curString -> prev = NULL;
+                    tmpStrPointer -> prev = strPointer;
+                    tmpStrPointer -> next = nextStrPointer;
+                    strPointer -> next = tmpStrPointer;
+                    charPointer -> next = NULL;
+                    return 0;
+                }
+                else {
+                    charPointer -> curChar = '\n';
+                    tmpStrPointer = (struct listOfStrings*)malloc(sizeof(struct listOfStrings));
+                    tmpStrPointer -> curString = charPointer -> next;
+                    tmpStrPointer -> curString -> prev = NULL;
+                    tmpStrPointer -> prev = strPointer;
+                    tmpStrPointer -> next = NULL;
+                    strPointer -> next = tmpStrPointer;
+                    charPointer -> next = NULL;
+                    return 0;
+                }
+            }
+            else {
+                charPointer -> curChar = insChar;
+                return 0;
+            }
+        }
+        else {
+            if (charPointer -> next == NULL){
+                if (charPointer -> curChar != '\n') {
+                    if (strPointer -> next != NULL) {
+                        charPointer -> curChar = '\n';
+                        nextStrPointer = strPointer -> next;
+                        tmpStrPointer = (struct listOfStrings*)malloc(sizeof(struct listOfStrings));
+                        tmpStrPointer -> curString = (struct listOfChars*)malloc(sizeof(struct listOfChars));
+                        tmpStrPointer -> curString -> curChar = '\n';
+                        tmpStrPointer -> curString -> prev = NULL;
+                        tmpStrPointer -> curString -> next = NULL;
+                        tmpStrPointer -> prev = strPointer;
+                        strPointer -> next = tmpStrPointer;
+                        tmpStrPointer -> next = nextStrPointer;
+                        return 0;
+                    }
+                    else {
+                        charPointer -> curChar = '\n';
+                        nextStrPointer = NULL;
+                        tmpStrPointer = (struct listOfStrings*)malloc(sizeof(struct listOfStrings));
+                        tmpStrPointer -> curString = (struct listOfChars*)malloc(sizeof(struct listOfChars));
+                        tmpStrPointer -> curString -> curChar = '\n';
+                        tmpStrPointer -> curString -> prev = NULL;
+                        tmpStrPointer -> curString -> next = NULL;
+                        tmpStrPointer -> prev = strPointer;
+                        strPointer -> next = tmpStrPointer;
+                        tmpStrPointer -> next = NULL;
+                        return 0;
+                    }
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                if (strPointer -> next != NULL) {
+                    charPointer -> curChar = '\n';
+                    nextStrPointer = strPointer -> next;
+                    tmpStrPointer = (struct listOfStrings*)malloc(sizeof(struct listOfStrings));
+                    tmpStrPointer -> curString = charPointer -> next;
+                    tmpStrPointer -> curString -> prev = NULL;
+                    tmpStrPointer -> prev = strPointer;
+                    tmpStrPointer -> next = nextStrPointer;
+                    strPointer -> next = tmpStrPointer;
+                    charPointer -> next = NULL;
+                    return 0;
+                }
+                else {
+                    charPointer -> curChar = '\n';
+                    tmpStrPointer = (struct listOfStrings*)malloc(sizeof(struct listOfStrings));
+                    tmpStrPointer -> curString = charPointer -> next;
+                    tmpStrPointer -> curString -> prev = NULL;
+                    tmpStrPointer -> prev = strPointer;
+                    tmpStrPointer -> next = NULL;
+                    strPointer -> next = tmpStrPointer;
+                    charPointer -> next = NULL;
+                    return 0;
+                }
+            }
         }
     }
 }

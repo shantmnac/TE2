@@ -340,7 +340,9 @@ int initFile(void){
         
         if (feof(inputFile)){
             if (firstIteration) {
-                tempPrevStr -> next = NULL;
+                if (tempPrevStr != NULL){
+                    tempPrevStr -> next = NULL;
+                }
                 free(tempNextStr);
             }
             else {
@@ -476,7 +478,6 @@ int readCmd(void){
                                         tempPrev = '!';
                                         break;
                                     }
-                                    //ХнУЙ
                                     case '"':{
                                         userString[userStringSize] = '"';
                                         userStringSize++;
