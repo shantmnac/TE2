@@ -1,5 +1,6 @@
 #include "techCmds.h"
 #include "assistFunctions.h"
+#include "textViewCmds.h"
 #include "struct.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -41,6 +42,9 @@ int exitF(void){
 //+
 int readF(void){
     int i = 0, j = 0;
+    char *tempFileName;
+    
+    tempFileName = fileName;
     
     if (parametrs == NULL) {
         return 0;
@@ -65,7 +69,7 @@ int readF(void){
     initFile();
     
     free(fileName);
-    fileName = NULL;
+    fileName = tempFileName;
     free(parametrs);
     parametrs = NULL;
     return 0;
@@ -159,4 +163,21 @@ void writeF(void){
     isFileSaved = 1;
     
     fclose(outputFile);
+}
+
+void helpF(void){
+    char *tempFileName;
+    
+    tempFileName = fileName;
+    
+    fileName = (char*)malloc(8);
+    fileName = "help.txt";
+    
+    initFile();
+    printPages();
+    freeTheList();
+    
+    fileName = tempFileName;
+    
+    
 }

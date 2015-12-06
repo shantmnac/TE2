@@ -15,7 +15,7 @@ extern struct listOfChars *tmpCharPointer;
 extern struct listOfStrings *pointerForStrings;
 static struct termios stored_settings;
 int isItOk = 1;
-//ХУЙ
+
 //+
 int degree(int num, int deg){
     int temp = num;
@@ -36,7 +36,7 @@ void clrscr(void){
     printf("\033[2J");
     printf("\033[0;0f");
 }
-//ХУ2Й
+//+
 void moveTxtY(char dir){
     int rowNum = 0, colNum = 0, i;
     
@@ -50,7 +50,7 @@ void moveTxtY(char dir){
     }
     
     resetKeypress();
-    //ХУ1Й
+    
     if (isItOk || (dir == 'U')) {
         clrscr();
     }
@@ -91,7 +91,7 @@ void moveTxtY(char dir){
                     default: {
                         if ((screenCol - colNum) >= 2) {
                             printf("%c", tmpCharPointer -> curChar);
-                            colNum++;//ХУ7Й
+                            colNum++;
                         }
                         else {
                             printf("\n<--->%c", tmpCharPointer -> curChar);
@@ -159,7 +159,6 @@ void moveTxtY(char dir){
                 isItOk = 0;
                 break;
             }
-            //Х4УЙ
         }
     }
     
@@ -224,7 +223,6 @@ void moveTxtX(char dir){
             for (i = 0; i < (screenNumY + 1) * screenCol; i++) {
                 tmpCharPointer = tmpCharPointer -> next;
             }
-            //Х6УЙ
         }
         screenNumY++;
     }
@@ -286,7 +284,6 @@ void initCmd(void){
     comands[11] = "read";
     comands[12] = "open";
     comands[13] = "write";
-    //Х_УЙ
     comands[14] = "set name";
     comands[15] = "help";
 }
@@ -309,7 +306,6 @@ int initFile(void){
     pointerForStrings = tempNextStr;
 
     do{
-        //ХУ_Й
         while(temp != '\n'){
             fread(&temp, sizeof(char), 1, inputFile);
             
@@ -384,7 +380,6 @@ int readCmd(void){
             tempCur = getchar();
         }
         fprintf(stderr, "Пустая команда!\n");
-        //ХйУЙ
         return 0;
     }
     
@@ -591,7 +586,6 @@ int readCmd(void){
                                     userStringSize++;
                                     tempCur = getchar();
                                     tempPrev = '!';
-                                    //Х-УЙ
                                     break;
                                 }
                                     
@@ -767,7 +761,7 @@ void resetKeypress(void){
     return;
 }
 //+
-int recognizeCmd(void){ // -1 - неккоректная команда
+int recognizeCmd(void){
     char temp = '!';
     int cmdNum = 0, symbolPosition = 0, isCmdCorrect = 1, pararmetrsLengthCounter = 0;
     

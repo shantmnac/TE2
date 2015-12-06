@@ -15,7 +15,7 @@
 #define NUMOFCMD 16
 
 char *comands[NUMOFCMD], *parametrs = NULL, *userString = NULL, *fileName = NULL;
-int tabWidth = 8, wrapMod = 0, screenNumY = 0, isFileSaved = 1, userStringSize = 0;
+int tabWidth = 8, wrapMod = 0, screenNumY = 0, isFileSaved = 1, userStringSize = 0, readOnlyMod = 0;
 struct listOfStrings *pointerForStrings;
 struct listOfStrings *tmpStrPointer;
 struct listOfChars *tmpCharPointer;
@@ -24,9 +24,9 @@ int screenCol = 80, screenRow = 25;
 
 int main(int argc, const char * argv[]) {
     fileName = "l.txt";
-    parametrs = "9 5 \n";
+    parametrs = "1 8 W";
     initFile();
-    editString();
+    insertSymbol();
     writeF();
     freeTheList();
     return 0;

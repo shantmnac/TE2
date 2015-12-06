@@ -359,6 +359,7 @@ int editString(void){
                     tmpStrPointer -> prev = strPointer;
                     tmpStrPointer -> next = nextStrPointer;
                     strPointer -> next = tmpStrPointer;
+                    nextStrPointer -> prev = tmpStrPointer;
                     charPointer -> next = NULL;
                     return 0;
                 }
@@ -393,6 +394,7 @@ int editString(void){
                         tmpStrPointer -> prev = strPointer;
                         strPointer -> next = tmpStrPointer;
                         tmpStrPointer -> next = nextStrPointer;
+                        nextStrPointer -> prev = tmpStrPointer;
                         return 0;
                     }
                     else {
@@ -423,6 +425,7 @@ int editString(void){
                     tmpStrPointer -> prev = strPointer;
                     tmpStrPointer -> next = nextStrPointer;
                     strPointer -> next = tmpStrPointer;
+                    nextStrPointer -> prev = tmpStrPointer;
                     charPointer -> next = NULL;
                     return 0;
                 }
@@ -437,6 +440,212 @@ int editString(void){
                     charPointer -> next = NULL;
                     return 0;
                 }
+            }
+        }
+    }
+}
+
+int insertSymbol(void){
+    int strPosition = 0, charPosition = 0, i = 0, j = 0;
+    char insChar;
+    struct listOfStrings *strPointer, *tmpStrPointer;
+    struct listOfChars *charPointer, *tmpCharPointer;
+    
+    
+    if (parametrs == NULL){
+        fprintf(stderr, "Неккоректный параметр!\n");
+        return 0;
+    }
+    
+    if (parametrs == NULL){
+        fprintf(stderr, "Неккоректный параметр!\n");
+        //free(parametrs);
+        return 0;
+    }
+    
+    while (parametrs[i] != ' ') {
+        if (parametrs[i] == '\0') {
+            fprintf(stderr, "Неккоректный параметр!\n");
+            //free(parametrs);
+            parametrs = NULL;
+            return 0;
+        }
+        if (isdigit(parametrs[i])) {
+            strPosition = strPosition * degree(10, j) + (int)parametrs[i] - 48;
+            i++;
+            j++;
+        }
+        else {
+            fprintf(stderr, "Неккоректный параметр!\n");
+            //free(parametrs);
+            parametrs = NULL;
+            return 0;
+        }
+    }
+    
+    if (parametrs[i] == ' ') {
+        i++;
+    }
+    
+    j = 0;
+    
+    while (parametrs[i] != ' ') {
+        if (parametrs[i] == '\0') {
+            fprintf(stderr, "Неккоректный параметр!\n");
+            //free(parametrs);
+            parametrs = NULL;
+            return 0;
+        }
+        if (isdigit(parametrs[i])) {
+            charPosition = charPosition * degree(10, j) + (int)parametrs[i] - 48;
+            i++;
+            j++;
+        }
+        else {
+            fprintf(stderr, "Неккоректный параметр!\n");
+            //free(parametrs);
+            parametrs = NULL;
+            return 0;
+        }
+    }
+    
+    if (parametrs[i] == ' ') {
+        i++;
+    }
+    
+    if (parametrs[i] == '\\') {
+        i++;
+        switch (parametrs[i]) {
+            case 'n':{
+                insChar = '\n';
+                break;
+            }
+                
+            case 't':{
+                insChar = '\t';
+                break;
+            }
+                
+            case 'b':{
+                insChar = '\b';
+                break;
+            }
+                
+            case '"':{
+                insChar = '"';
+                break;
+            }
+                
+            case '\\':{
+                insChar = '\\';
+                break;
+            }
+                
+            default:{
+                insChar = parametrs[i];
+                break;
+            }
+        }
+    }
+    else {
+        insChar = parametrs[i];
+    }
+    
+    //free(parametrs);
+    parametrs = NULL;
+    
+    strPointer = pointerForStrings;
+    
+    for (i = 1; i < strPosition; i++) {
+        if (strPointer -> next != NULL) {
+            strPointer = strPointer -> next;
+        }
+        else {
+            fprintf(stderr, "Неккоректный параметр!\n");
+            return 0;
+        }
+    }
+    
+    charPointer = strPointer -> curString;
+    
+    for (i = 1; i < charPosition; i++) {
+        if (charPointer -> next != NULL) {
+            charPointer = charPointer -> next;
+        }
+        else {
+            charPosition = -1;
+            break;
+        }
+    }
+    
+    if (insChar != '\n') {
+        if (charPosition != -1) {
+            tmpCharPointer = (struct listOfChars*)malloc(sizeof(struct listOfChars*));
+            tmpCharPointer -> curChar = insChar;
+            if (charPointer -> prev != NULL) {
+                tmpCharPointer -> prev = charPointer -> prev;
+                tmpCharPointer -> prev -> next = tmpCharPointer;
+            }
+            else {
+                strPointer -> curString = tmpCharPointer;
+                tmpCharPointer -> prev = NULL;
+            }
+            tmpCharPointer -> next = charPointer;
+            charPointer -> prev = tmpCharPointer;
+            return 0;
+        }
+        else{
+            tmpCharPointer = (struct listOfChars*)malloc(sizeof(struct listOfChars*));
+            tmpCharPointer -> curChar = insChar;
+            tmpCharPointer -> prev = charPointer;
+            tmpCharPointer -> next = NULL;
+            charPointer -> next = tmpCharPointer;
+            return 0;
+        }
+    }
+    else{
+        if (charPosition == 1) {
+            tmpCharPointer = (struct listOfChars*)malloc(sizeof(struct listOfChars));
+            tmpCharPointer -> curChar = '\n';
+            tmpCharPointer -> next = NULL;
+            tmpCharPointer -> prev = NULL;
+            strPointer -> curString = tmpCharPointer;
+            
+            tmpStrPointer = (struct listOfStrings*)malloc(sizeof(struct listOfStrings));
+            tmpStrPointer -> curString = charPointer;
+            charPointer -> prev = NULL;
+            
+            tmpStrPointer -> prev = strPointer;
+            tmpStrPointer -> next = strPointer -> next;
+            strPointer -> next = tmpStrPointer;
+            tmpStrPointer -> next -> prev = tmpStrPointer;
+            return 0;
+        }
+        else {
+            if (charPosition != -1) {
+                tmpCharPointer = (struct listOfChars*)malloc(sizeof(struct listOfChars*));
+                tmpCharPointer -> curChar = insChar;
+                tmpCharPointer -> prev = charPointer;
+                charPointer -> next = tmpCharPointer;
+                tmpCharPointer -> next = NULL;
+                return 0;
+            }
+            else{
+                tmpCharPointer = (struct listOfChars*)malloc(sizeof(struct listOfChars));
+                tmpCharPointer -> curChar = '\n';
+                tmpCharPointer -> next = NULL;
+                tmpCharPointer -> prev = charPointer -> prev;
+                charPointer -> prev -> next = tmpCharPointer;
+                
+                tmpStrPointer = (struct listOfStrings*)malloc(sizeof(struct listOfStrings));
+                tmpStrPointer -> curString = charPointer;
+                charPointer -> prev = NULL;
+                
+                tmpStrPointer -> prev = strPointer;
+                tmpStrPointer -> next = strPointer -> next;
+                strPointer -> next = tmpStrPointer;
+                tmpStrPointer -> next -> prev = tmpStrPointer;
+                return 0;
             }
         }
     }
