@@ -6,6 +6,7 @@
 #include <ctype.h>
 
 extern char *parametrs;
+extern int isFileSaved;
 extern struct listOfStrings *tmpStrPointer;
 extern struct listOfChars *tmpCharPointer;
 extern struct listOfStrings *pointerForStrings;
@@ -66,6 +67,8 @@ int insertAfter(void){
         parametrs = NULL;
         return 0;
     }
+    
+    isFileSaved = 0;
     
     tempNextStr = (struct listOfStrings*)malloc(sizeof(struct listOfStrings));
     tempNextStr->prev = NULL;

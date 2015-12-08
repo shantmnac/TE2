@@ -271,50 +271,128 @@ void printPages(void){
 }
 
 void printRange(void){
-    int i = 0, startR = 0, endR = 0;
-    struct listOfStrings *prevStr, *nextStr, *firstStr, *lastStr;
-    
-    tmpStrPointer = pointerForStrings;
+    int i = 0, j = 0, startR = 0, endR = 0;
+    struct listOfStrings *prevStr, *nextStr, *firstStr, *lastStr, *veryImportantString = NULL;
     
     if (parametrs == NULL) {
         printPages();
-        exit (0);
+        return;
     }
     
-    while ((parametrs[i] != ' ') || (parametrs[i] != '\0')) {
-        startR = startR * 10 + (int)parametrs[i] - 48;
-        i++;
-    }
-    
-    for (i = 1; i < startR; i++) {
-        tmpStrPointer = tmpStrPointer -> next;
-    }
-    firstStr = tmpStrPointer;
-    prevStr = tmpStrPointer -> prev;
-    tmpStrPointer -> prev = NULL;
-    
-    if (parametrs[i] != '\0'){
-        i++;
-        while ((parametrs[i] != '\0')) {
-            endR = endR * 10 + (int)parametrs[i] - 48;
+    while (parametrs[i] != ' ') {
+        if (parametrs[i] == '\0') {
+            break;
+        }
+        if (isdigit(parametrs[i])) {
+            startR = startR * 10 + (int)parametrs[i] - 48;
             i++;
+            j++;
+        }
+        else {
+            fprintf(stderr, "Неккоректный параметр!\n");
+            //free(parametrs);
+            parametrs = NULL;
+            return;
+        }
+    }
+    
+    if (parametrs[i] == ' ') {
+        i++;
+        j = 0;
+        
+        while (parametrs[i] != ' ') {
+            if (parametrs[i] == '\0') {
+                break;
+            }
+            if (isdigit(parametrs[i])) {
+                endR = endR * 10 + (int)parametrs[i] - 48;
+                i++;
+                j++;
+            }
+            else {
+                fprintf(stderr, "Неккоректный параметр!\n");
+                //free(parametrs);
+                parametrs = NULL;
+                return;
+            }
         }
         
-        for (i = 1; i < endR; i++) {
-            tmpStrPointer = tmpStrPointer -> next;
+        if (startR > endR) {
+            fprintf(stderr, "Неккоректный параметр!\n");
+            //free(parametrs);
+            parametrs = NULL;
+            return;
         }
-        lastStr = tmpStrPointer;
-        nextStr = tmpStrPointer -> next;
-        tmpStrPointer -> next = NULL;
+    }
+    else{
+        endR = -1;
     }
     
-    tmpStrPointer = firstStr;
-    tmpCharPointer = firstStr -> curString;
-    printPages();
-    firstStr -> prev = prevStr;
-    lastStr -> next = nextStr;
+    //free(parametrs);
+    parametrs = NULL;
+    
     tmpStrPointer = pointerForStrings;
-    tmpCharPointer = pointerForStrings -> curString;
+    
+    for (i = 1; i < startR; i++) {
+        if (tmpStrPointer -> next != NULL) {
+            tmpStrPointer = tmpStrPointer -> next;
+        }
+        else {
+            fprintf(stderr, "Выход за диапазон строк!\n");
+            return;
+        }
+    }
+    
+    firstStr = tmpStrPointer;
+    prevStr = tmpStrPointer -> prev;
+    
+    if (endR != -1){
+        tmpStrPointer = pointerForStrings;
+        
+        for (i = 1; i < endR; i++) {
+            if (tmpStrPointer -> next != NULL) {
+                tmpStrPointer = tmpStrPointer -> next;
+            }
+            else {
+                endR = -1;
+                break;
+            }
+        }
+    }
+    
+    if (endR == -1) {
+        firstStr -> prev = NULL;
+        prevStr -> next = NULL;
+        veryImportantString = pointerForStrings;
+        pointerForStrings = firstStr;
+        printPages();
+        pointerForStrings = veryImportantString;
+        firstStr -> prev = prevStr;
+        prevStr -> next = firstStr;
+        return;
+    }
+    else {
+        lastStr = tmpStrPointer;
+        nextStr = tmpStrPointer -> next;
+    }
+    
+    firstStr -> prev = NULL;
+    prevStr -> next = NULL;
+    
+    lastStr -> next = NULL;
+    nextStr -> prev = NULL;
+    
+    veryImportantString = pointerForStrings;
+    pointerForStrings = firstStr;
+    
+    printPages();
+    
+    pointerForStrings = veryImportantString;
+    firstStr -> prev = prevStr;
+    prevStr -> next = firstStr;
+    lastStr -> next = nextStr;
+    nextStr -> prev = lastStr;
+    return;
 }
 //+
 void setWrap(void){
