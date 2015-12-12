@@ -23,17 +23,19 @@ int exitF(void){
         i++;
     }
     
+    free(parametrs);
+    parametrs = NULL;
+    
     if (isForceExit) {
-        free(parametrs);
-        parametrs = NULL;
         return 1;
     }
     else{
         if (!isFileSaved) {
             fprintf(stderr, "Файл не сохранен!\n");
-            free(parametrs);
-            parametrs = NULL;
             return 0;
+        }
+        else {
+            return 1;
         }
     }
     

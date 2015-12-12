@@ -52,7 +52,7 @@ int main(int argc, char *argv[]){
             return 0;
         }
         
-        if (returningInt == 0) {
+        if (returningInt == 1) {
             continue;
         }
         
@@ -63,7 +63,7 @@ int main(int argc, char *argv[]){
             return 0;
         }
         
-        if (returningInt == 0) {
+        if (returningInt == 1) {
             continue;
         }
         

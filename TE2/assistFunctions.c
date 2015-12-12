@@ -383,7 +383,7 @@ int readCmd(void){
             tempCur = getchar();
         }
         fprintf(stderr, "Пустая команда!\n");
-        return 0;
+        return 1;
     }
     
     while (1) {
@@ -418,21 +418,19 @@ int readCmd(void){
                 
             case '"':{
                 tempPrev = tempCur;
+                userString = (char*)realloc(userString, (userStringSize + 1) * sizeof(char));
+                if (userString == NULL){
+                    fprintf(stderr, "Переполнение памяти!\n");
+                    free(userString);
+                    return 9;
+                }
+                userString[userStringSize] = '"';
+                userStringSize++;
                 tempCur = getchar();
                 if (tempCur == '"'){
                     tempPrev = tempCur;
                     tempCur = getchar();
                     if (tempCur == '"'){
-                        userString = (char*)realloc(userString, (userStringSize + 1) * sizeof(char));
-                        if (userString == NULL){
-                            fprintf(stderr, "Переполнение памяти!\n");
-                            free(userString);
-                            return 9;
-                        }
-                        userString[userStringSize] = '"';
-                        userStringSize++;
-                        tempPrev = tempCur;
-                        tempCur = getchar();
                         while (1) {
                             if (tempCur == '\\') {
                                 tempPrev = tempCur;
@@ -506,13 +504,13 @@ int readCmd(void){
                                     else{
                                         fprintf(stderr, "Нарушено сочетание кавычек!\n");
                                         free(userString);
-                                        return 0;
+                                        return 1;
                                     }
                                 }
                                 else{
                                     fprintf(stderr, "Нарушено сочетание кавычек!\n");
                                     free(userString);
-                                    return 0;
+                                    return 1;
                                 }
                             }
                             else {
@@ -532,21 +530,10 @@ int readCmd(void){
                     else{
                         fprintf(stderr, "Нарушено сочетание кавычек!\n");
                         free(userString);
-                        return 0;
+                        return 1;
                     }
                 }
                 else{
-                    userString = (char*)realloc(userString, (userStringSize + 1) * sizeof(char));
-                    if (userString == NULL){
-                        fprintf(stderr, "Переполнение памяти!\n");
-                        //неХУЙ
-                        free(userString);
-                        return 9;
-                    }
-                    userString[userStringSize] = '"';
-                    userStringSize++;
-                    tempPrev = tempCur;
-                    tempCur = getchar();
                     while (1) {
                         if (tempCur == '\\') {
                             tempPrev = tempCur;
@@ -618,7 +605,7 @@ int readCmd(void){
                             if (tempCur == '\n'){
                                 fprintf(stderr, "Нарушено сочетание кавычек!\n");
                                 free(userString);
-                                return 0;
+                                return 1;
                             }
                             tempPrev = tempCur;
                             userString = (char*)realloc(userString, (userStringSize + 1) * sizeof(char));
@@ -770,7 +757,7 @@ int recognizeCmd(void){
     
     if (userString == NULL) {
         fprintf(stderr, "Пустая команда!\n");
-        return 0;
+        return 1;
     }
     
     for (cmdNum = 0; cmdNum < 16; cmdNum++){
@@ -787,35 +774,33 @@ int recognizeCmd(void){
                 symbolPosition++;
             }
         }
+        
+        if (isCmdCorrect) {
+            if (userString[symbolPosition] == ' '){
+                symbolPosition++;
+            }
+            while (symbolPosition <= userStringSize) {
+                parametrs = (char*)realloc(parametrs, (pararmetrsLengthCounter + 1) * sizeof(char));
+                if (parametrs == NULL) {
+                    fprintf(stderr, "Переполнение памяти!\n");
+                    free(userString);
+                    userString = NULL;
+                    return 9;
+                }
+                parametrs[pararmetrsLengthCounter] = userString[symbolPosition];
+                pararmetrsLengthCounter++;
+                symbolPosition++;
+            }
+            free(userString);
+            userString = NULL;
+            return cmdNum;
+        }
     }
         
-    if (isCmdCorrect) {
-        if (userString[symbolPosition] == ' '){
-            symbolPosition++;
-        }
-        while (symbolPosition <= userStringSize) {
-            parametrs = (char*)realloc(parametrs, (pararmetrsLengthCounter + 1) * sizeof(char));
-            if (parametrs == NULL) {
-                fprintf(stderr, "Переполнение памяти!\n");
-                free(userString);
-                userString = NULL;
-                return 9;
-            }
-            parametrs[pararmetrsLengthCounter] = userString[symbolPosition];
-            pararmetrsLengthCounter++;
-            symbolPosition++;
-        }
-        free(userString);
-        userString = NULL;
-        return cmdNum;
-    }
-    else{
-        fprintf(stderr ,"Некорректная команда!\n");
-        free(userString);
-        userString = NULL;
-        return 0;
-    }
-    return 0;
+    fprintf(stderr ,"Некорректная команда!\n");
+    free(userString);
+    userString = NULL;
+    return 1;
 }
 //+
 void freeTheList(void){
