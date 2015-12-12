@@ -108,8 +108,10 @@ int openF(void){
     fileName = tempFileName;
     free(tempFileName);
     
-    initFile();
-    isFileSaved = 0;
+    if(initFile() != 8){
+        isFileSaved = 0;
+    }
+    
     return 0;
 }
 //+
