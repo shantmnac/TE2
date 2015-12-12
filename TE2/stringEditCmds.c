@@ -18,19 +18,19 @@ extern struct listOfChars *tmpCharPointer;
 extern struct listOfStrings *pointerForStrings;
 extern struct winsize screenSize;
 
-int deleteRange(void){
+void deleteRange(void){
     int i = 0, j = 0, startR = 0, endR = 0;
     struct listOfStrings *tmpStr, *nextStr, *firstStr;
     
     if ((pointerForStrings == NULL) || (pointerForStrings -> curString == NULL)) {
         //free(parametrs);
         parametrs = NULL;
-        return 0;
+        return;
     }
     
     if ((parametrs == NULL) || (parametrs[i] == '\0')) {
         fprintf(stderr, "Неккоректный параметр!\n");
-        return 0;
+        return;
     }
     
     while ((parametrs[i] != ' ') && (parametrs[i] != '\0')) {
@@ -43,7 +43,7 @@ int deleteRange(void){
             fprintf(stderr, "Неккоректный параметр!\n");
             ////free(parametrs);
             parametrs = NULL;
-            return 0;
+            return;
         }
     }
     
@@ -53,7 +53,7 @@ int deleteRange(void){
         fprintf(stderr, "Неккоректный параметр!\n");
         ////free(parametrs);
         parametrs = NULL;
-        return 0;
+        return;
     }
     
     if (parametrs[i] == ' ') {
@@ -71,7 +71,7 @@ int deleteRange(void){
                 fprintf(stderr, "Неккоректный параметр!\n");
                 ////free(parametrs);
                 parametrs = NULL;
-                return 0;
+                return;
             }
         }
     }
@@ -84,7 +84,7 @@ int deleteRange(void){
             fprintf(stderr, "Неккоректный параметр!\n");
             ////free(parametrs);
             parametrs = NULL;
-            return 0;
+            return;
         }
     }
     
@@ -107,12 +107,12 @@ int deleteRange(void){
                     firstStr -> next = NULL;
                     ////free(parametrs);
                     parametrs = NULL;
-                    return 0;
+                    return;
                 }
             }
             ////free(parametrs);
             parametrs = NULL;
-            return 0;
+            return;
         }
         else{
             for (i = 1; i < startR; i++) {
@@ -124,7 +124,7 @@ int deleteRange(void){
                     isFileSaved = 1;
                     ////free(parametrs);
                     parametrs = NULL;
-                    return 0;
+                    return;
                 }
             }
             
@@ -144,7 +144,7 @@ int deleteRange(void){
                     firstStr -> next = NULL;
                     ////free(parametrs);
                     parametrs = NULL;
-                    return 0;
+                    return;
                 }
             }
         }
@@ -164,14 +164,14 @@ int deleteRange(void){
                     pointerForStrings = NULL;
                     ////free(parametrs);
                     parametrs = NULL;
-                    return 0;
+                    return;
                 }
             }
             nextStr -> prev = NULL;
             pointerForStrings = nextStr;
             ////free(parametrs);
             parametrs = NULL;
-            return 0;
+            return;
         }
         else{
             for (i = 1; i < startR; i++) {
@@ -183,7 +183,7 @@ int deleteRange(void){
                     isFileSaved = 1;
                     ////free(parametrs);
                     parametrs = NULL;
-                    return 0;
+                    return;
                 }
             }
             
@@ -202,7 +202,7 @@ int deleteRange(void){
                     firstStr -> next = NULL;
                     ////free(parametrs);
                     parametrs = NULL;
-                    return 0;
+                    return;
                 }
             }
             
@@ -210,12 +210,12 @@ int deleteRange(void){
             nextStr -> prev = firstStr;
             ////free(parametrs);
             parametrs = NULL;
-            return 0;
+            return;
         }
     }
 }
 
-int editString(void){
+void editString(void){
     int strPosition = 0, charPosition = 0, i = 0, j = 0;
     char insChar;
     struct listOfStrings *strPointer, *nextStrPointer, *tmpStrPointer;
@@ -224,18 +224,18 @@ int editString(void){
     if ((pointerForStrings == NULL) || (pointerForStrings -> curString == NULL)) {
         //free(parametrs);
         parametrs = NULL;
-        return 0;
+        return;
     }
     
     if (parametrs == NULL){
         fprintf(stderr, "Неккоректный параметр!\n");
-        return 0;
+        return;
     }
     
     if (parametrs == NULL){
         fprintf(stderr, "Неккоректный параметр!\n");
         //free(parametrs);
-        return 0;
+        return;
     }
     
     while (parametrs[i] != ' ') {
@@ -243,7 +243,7 @@ int editString(void){
             fprintf(stderr, "Неккоректный параметр!\n");
             //free(parametrs);
             parametrs = NULL;
-            return 0;
+            return;
         }
         if (isdigit(parametrs[i])) {
             strPosition = strPosition * 10 + (int)parametrs[i] - 48;
@@ -254,7 +254,7 @@ int editString(void){
             fprintf(stderr, "Неккоректный параметр!\n");
             //free(parametrs);
             parametrs = NULL;
-            return 0;
+            return;
         }
     }
         
@@ -269,7 +269,7 @@ int editString(void){
             fprintf(stderr, "Неккоректный параметр!\n");
             //free(parametrs);
             parametrs = NULL;
-            return 0;
+            return;
         }
         if (isdigit(parametrs[i])) {
             charPosition = charPosition * 10 + (int)parametrs[i] - 48;
@@ -280,7 +280,7 @@ int editString(void){
             fprintf(stderr, "Неккоректный параметр!\n");
             //free(parametrs);
             parametrs = NULL;
-            return 0;
+            return;
         }
     }
     
@@ -339,7 +339,7 @@ int editString(void){
         else {
             fprintf(stderr, "Неккоректный параметр!\n");
             isFileSaved = 1;
-            return 0;
+            return;
         }
     }
     
@@ -352,13 +352,13 @@ int editString(void){
         else {
             fprintf(stderr, "Неккоректный параметр!\n");
             isFileSaved = 1;
-            return 0;
+            return;
         }
     }
     
     if (insChar != '\n') {
         charPointer -> curChar = insChar;
-        return 0;
+        return;
     }
     else{
         if (charPosition == 1) {
@@ -374,7 +374,7 @@ int editString(void){
                     strPointer -> next = tmpStrPointer;
                     nextStrPointer -> prev = tmpStrPointer;
                     charPointer -> next = NULL;
-                    return 0;
+                    return;
                 }
                 else {
                     charPointer -> curChar = '\n';
@@ -385,12 +385,12 @@ int editString(void){
                     tmpStrPointer -> next = NULL;
                     strPointer -> next = tmpStrPointer;
                     charPointer -> next = NULL;
-                    return 0;
+                    return;
                 }
             }
             else {
                 charPointer -> curChar = insChar;
-                return 0;
+                return;
             }
         }
         else {
@@ -408,7 +408,7 @@ int editString(void){
                         strPointer -> next = tmpStrPointer;
                         tmpStrPointer -> next = nextStrPointer;
                         nextStrPointer -> prev = tmpStrPointer;
-                        return 0;
+                        return;
                     }
                     else {
                         charPointer -> curChar = '\n';
@@ -421,11 +421,11 @@ int editString(void){
                         tmpStrPointer -> prev = strPointer;
                         strPointer -> next = tmpStrPointer;
                         tmpStrPointer -> next = NULL;
-                        return 0;
+                        return;
                     }
                 }
                 else{
-                    return 0;
+                    return;
                 }
             }
             else{
@@ -440,7 +440,7 @@ int editString(void){
                     strPointer -> next = tmpStrPointer;
                     nextStrPointer -> prev = tmpStrPointer;
                     charPointer -> next = NULL;
-                    return 0;
+                    return;
                 }
                 else {
                     charPointer -> curChar = '\n';
@@ -451,7 +451,7 @@ int editString(void){
                     tmpStrPointer -> next = NULL;
                     strPointer -> next = tmpStrPointer;
                     charPointer -> next = NULL;
-                    return 0;
+                    return;
                 }
             }
         }
@@ -805,6 +805,7 @@ void deleteBraces(void){
                                 free(charPointer);
                                 if (strPointer -> next != NULL) {
                                     charPointer = strPointer -> next -> curString;
+                                    startCharPointer -> next = NULL;
                                     toMergeStrings = 1;
                                 }
                                 else {

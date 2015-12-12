@@ -178,16 +178,28 @@ void writeF(void){
     fclose(outputFile);
 }
 
-void helpF(void){
+int helpF(void){
     char *tempFileName;
     
     tempFileName = fileName;
-;
+    
     fileName = "help.txt";
     
-    initFile();
+    if(initFile() == 9){
+        return 9;
+    }
+    
+    if(initFile() == 8){
+        fileName = tempFileName;
+        return 0;
+    }
+    
     printPages();
     freeTheList();
     
     fileName = tempFileName;
+    if(initFile() == 9){
+        return 9;
+    }
+    return 0;
 }

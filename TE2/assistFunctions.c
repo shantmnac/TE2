@@ -297,7 +297,7 @@ int initFile(void){
     inputFile = fopen(fileName, "rb");
     if (inputFile == NULL) {
         fprintf(stderr, "Такого файла нет!\n");
-        return 0;
+        return 8;
     }
     
     tempNextStr = (struct listOfStrings*)malloc(sizeof(struct listOfStrings));
@@ -317,6 +317,7 @@ int initFile(void){
             tempNextChar = (struct listOfChars*)malloc(sizeof(struct listOfChars));
             if (tempNextChar == NULL) {
                 fprintf(stderr, "Недостаточно памяти!\n");
+                fclose(inputFile);
                 freeTheList();
                 return 9;
             }
@@ -357,6 +358,7 @@ int initFile(void){
         tempNextStr = (struct listOfStrings*)malloc(sizeof(struct listOfStrings));
         if (tempNextStr == NULL) {
             fprintf(stderr, "Недостаточно памяти!\n");
+            fclose(inputFile);
             freeTheList();
             return 9;
         }

@@ -1,8 +1,8 @@
 #ifndef stringEditCmds_h
 #define stringEditCmds_h
 
-int deleteRange(void);
-int editString(void);
+void deleteRange(void);
+void editString(void);
 int insertSymbol(void);
 void deleteBraces(void);
 

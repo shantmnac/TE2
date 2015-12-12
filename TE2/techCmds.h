@@ -6,6 +6,6 @@ int readF(void);
 int openF(void);
 int setName(void);
 void writeF(void);
-void helpF(void);
+int helpF(void);
 
 #endif
