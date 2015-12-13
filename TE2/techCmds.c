@@ -9,6 +9,9 @@ extern char *parametrs, *userString, *fileName;
 extern int isFileSaved;
 extern struct listOfStrings *tmpStrPointer, *pointerForStrings;
 extern struct listOfChars *tmpCharPointer;
+
+int fileNameLength = 0;
+
 //+
 int exitF(void){
     int i = 0, isForceExit = 0;
@@ -46,8 +49,6 @@ int readF(void){
     int i = 0, j = 0;
     char *tempFileName1 = NULL, *tempFileName2 = NULL;
     
-    tempFileName2 = fileName;
-    
     if (parametrs == NULL) {
         return 0;
     }
@@ -67,20 +68,33 @@ int readF(void){
         j++;
         i++;
     }
+    tempFileName1 = (char*)realloc(tempFileName1, j+1);
+    if (tempFileName1 == NULL){
+        fprintf(stderr, "Переполнение памяти!\n");
+        free(tempFileName1);
+        return 9;
+    }
+    tempFileName1[j] = '\0';
     
+    tempFileName2 = (char*)malloc(fileNameLength);
+    tempFileName2 = fileName;
+    
+    fileName = (char*)realloc(fileName, j+1);
     fileName = tempFileName1;
     initFile();
     
-    free(tempFileName1);
+    fileName = (char*)realloc(fileName, fileNameLength);
     fileName = tempFileName2;
+    
+    free(tempFileName1);
+    free(tempFileName2);
     free(parametrs);
     parametrs = NULL;
     return 0;
 }
 //+
 int openF(void){
-    int i = 0, j = 0;
-    char *tempFileName = NULL;
+    int i = 0;
     
     if (parametrs == NULL) {
         return 0;
@@ -91,33 +105,35 @@ int openF(void){
     }
     
     while (parametrs[i] != '\0') {
-        tempFileName = (char*)realloc(tempFileName, j+1);
-        if (tempFileName == NULL){
+        fileName = (char*)realloc(fileName, fileNameLength+1);
+        if (fileName == NULL){
             fprintf(stderr, "Переполнение памяти!\n");
-            free(tempFileName);
+            free(fileName);
             return 9;
         }
-        tempFileName[j] = parametrs[i];
-        j++;
+        fileName[fileNameLength] = parametrs[i];
+        fileNameLength++;
         i++;
     }
+    
+    fileName = (char*)realloc(fileName, fileNameLength+1);
+    if (fileName == NULL){
+        fprintf(stderr, "Переполнение памяти!\n");
+        free(fileName);
+        return 9;
+    }
+    fileName[fileNameLength] = '\0';
     
     free(parametrs);
     parametrs = NULL;
     
-    fileName = tempFileName;
-    free(tempFileName);
-    
-    if(initFile() != 8){
-        isFileSaved = 0;
-    }
+    initFile();
     
     return 0;
 }
 //+
 int setName(void){
-    int i = 0, j = 0;
-    char *tempFileName = NULL;
+    int i = 0;
     
     if (parametrs == NULL) {
         return 0;
@@ -128,24 +144,28 @@ int setName(void){
     }
     
     while (parametrs[i] != '\0') {
-        tempFileName = (char*)realloc(tempFileName, j+1);
-        if (tempFileName == NULL){
+        fileName = (char*)realloc(fileName, fileNameLength+1);
+        if (fileName == NULL){
             fprintf(stderr, "Переполнение памяти!\n");
-            free(tempFileName);
+            free(fileName);
             return 9;
         }
-        tempFileName[j] = parametrs[i];
-        j++;
+        fileName[fileNameLength] = parametrs[i];
+        fileNameLength++;
         i++;
     }
+    fileName = (char*)realloc(fileName, fileNameLength+1);
+    if (fileName == NULL){
+        fprintf(stderr, "Переполнение памяти!\n");
+        free(fileName);
+        return 9;
+    }
+    fileName[fileNameLength] = '\0';
+    
     
     free(parametrs);
     parametrs = NULL;
     
-    fileName = tempFileName;
-    free(tempFileName);
-    
-    isFileSaved = 0;
     return 0;
 }
 //+
@@ -185,7 +205,7 @@ void writeF(void){
 int helpF(void){
     char *tempFileName;
     
-    tempFileName = fileName;
+    tempFileName = &fileName[0];
     
     fileName = "help.txt";
     
