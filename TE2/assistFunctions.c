@@ -496,6 +496,15 @@ int readCmd(void){
                                 if (tempCur == '"') {
                                     tempCur = getchar();
                                     if (tempCur == '"') {
+                                        
+                                        userString = (char*)realloc(userString, (userStringSize + 1) * sizeof(char));
+                                        if (userString == NULL){
+                                            fprintf(stderr, "Переполнение памяти!\n");
+                                            free(userString);
+                                            return 9;
+                                        }
+                                        userString[userStringSize] = '\0';
+                                        
                                         while (tempCur != '\n') {
                                             tempCur = getchar();
                                         }
@@ -596,6 +605,14 @@ int readCmd(void){
                         }
                         
                         if (tempCur == '"') {
+                            userString = (char*)realloc(userString, (userStringSize + 1) * sizeof(char));
+                            if (userString == NULL){
+                                fprintf(stderr, "Переполнение памяти!\n");
+                                free(userString);
+                                return 9;
+                            }
+                            userString[userStringSize] = '\0';
+                            
                             while (tempCur != '\n') {
                                 tempCur = getchar();
                             }
@@ -641,10 +658,27 @@ int readCmd(void){
                 while (tempCur != '\n') {
                     tempCur = getchar();
                 }
+                
+                userString = (char*)realloc(userString, (userStringSize + 1) * sizeof(char));
+                if (userString == NULL){
+                    fprintf(stderr, "Переполнение памяти!\n");
+                    free(userString);
+                    return 9;
+                }
+                userString[userStringSize] = '\0';
+                
                 return 0;
             }
                 
             case '\n':{
+                userString = (char*)realloc(userString, (userStringSize + 1) * sizeof(char));
+                if (userString == NULL){
+                    fprintf(stderr, "Переполнение памяти!\n");
+                    free(userString);
+                    return 9;
+                }
+                userString[userStringSize] = '\0';
+                
                 return 0;
             }
                 
@@ -757,7 +791,7 @@ int recognizeCmd(void){
     
     if (userString == NULL) {
         fprintf(stderr, "Пустая команда!\n");
-        return 1;
+        return 0;
     }
     
     for (cmdNum = 0; cmdNum < 16; cmdNum++){
@@ -779,7 +813,7 @@ int recognizeCmd(void){
             if (userString[symbolPosition] == ' '){
                 symbolPosition++;
             }
-            while (symbolPosition <= userStringSize) {
+            while (symbolPosition < userStringSize) {
                 parametrs = (char*)realloc(parametrs, (pararmetrsLengthCounter + 1) * sizeof(char));
                 if (parametrs == NULL) {
                     fprintf(stderr, "Переполнение памяти!\n");
@@ -800,7 +834,7 @@ int recognizeCmd(void){
     fprintf(stderr ,"Некорректная команда!\n");
     free(userString);
     userString = NULL;
-    return 1;
+    return 0;
 }
 //+
 void freeTheList(void){
