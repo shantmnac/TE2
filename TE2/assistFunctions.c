@@ -785,7 +785,7 @@ void resetKeypress(void){
 //+
 int recognizeCmd(void){
     char temp = '!';
-    int cmdNum = 0, symbolPosition = 0, isCmdCorrect = 1, pararmetrsLengthCounter = 0;
+    int cmdNum = 0, symbolPosition = 0, isCmdCorrect = 1, parametrsLengthCounter = 0;
     
     parametrs = NULL;
     
@@ -814,17 +814,25 @@ int recognizeCmd(void){
                 symbolPosition++;
             }
             while (symbolPosition < userStringSize) {
-                parametrs = (char*)realloc(parametrs, (pararmetrsLengthCounter + 1) * sizeof(char));
+                parametrs = (char*)realloc(parametrs, (parametrsLengthCounter + 1) * sizeof(char));
                 if (parametrs == NULL) {
                     fprintf(stderr, "Переполнение памяти!\n");
                     free(userString);
                     userString = NULL;
                     return 9;
                 }
-                parametrs[pararmetrsLengthCounter] = userString[symbolPosition];
-                pararmetrsLengthCounter++;
+                parametrs[parametrsLengthCounter] = userString[symbolPosition];
+                parametrsLengthCounter++;
                 symbolPosition++;
             }
+            parametrs = (char*)realloc(parametrs, (parametrsLengthCounter + 1) * sizeof(char));
+            if (parametrs == NULL){
+                fprintf(stderr, "Переполнение памяти!\n");
+                free(parametrs);
+                return 9;
+            }
+            parametrs[parametrsLengthCounter] = '\0';
+            
             free(userString);
             userString = NULL;
             return cmdNum;
