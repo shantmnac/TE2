@@ -32,8 +32,14 @@ int main(int argc, char *argv[]){
      screenRow = screenSize.ws_row;
      */
     
+    fileName = "l.txt";
+    initFile(fileName);
+    parametrs = "";
+    deleteBraces();
+    writeF();
+    freeTheList();
     
-    if (argc == 2){
+    /*if (argc == 2){
         fileName = argv[1];
         if(initFile(fileName) == 9){
             freeTheList();
@@ -58,7 +64,7 @@ int main(int argc, char *argv[]){
         
         returningInt = recognizeCmd();
         
-        if (returningInt == 9) {
+        if (returningInt == -9) {
             freeTheList();
             return 0;
         }
@@ -165,6 +171,6 @@ int main(int argc, char *argv[]){
         }
     }
     
-    freeTheList();
+    freeTheList();*/
     return 0;
 }

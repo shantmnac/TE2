@@ -681,7 +681,7 @@ void deleteBraces(void){
     struct listOfStrings *strPointer;
     
     if ((pointerForStrings == NULL) || (pointerForStrings -> curString == NULL)) {
-        //free(parametrs);
+        free(parametrs);
         parametrs = NULL;
         return;
     }
@@ -698,7 +698,7 @@ void deleteBraces(void){
             }
             else {
                 fprintf(stderr, "Неккоректный параметр!\n");
-                //free(parametrs);
+                free(parametrs);
                 parametrs = NULL;
                 return;
             }
@@ -719,7 +719,7 @@ void deleteBraces(void){
                 }
                 else {
                     fprintf(stderr, "Неккоректный параметр!\n");
-                    //free(parametrs);
+                    free(parametrs);
                     parametrs = NULL;
                     return;
                 }
@@ -738,7 +738,7 @@ void deleteBraces(void){
         
         //free(parametrs);
         parametrs = NULL;
-    }
+    } 
     
     if (endR != -1) {
         iterationCounter = endR - startR + 1;
@@ -768,7 +768,7 @@ void deleteBraces(void){
                             bracesCounter--;
                         }
                         
-                        if ((bracesCounter == 0) && (inTheBraces == 1)) {
+                        if ((!bracesCounter) && (inTheBraces)) {
                             if (charPointer -> next != NULL) {
                                 nextCharPointer = charPointer -> next;
                                 free(charPointer);
@@ -788,7 +788,15 @@ void deleteBraces(void){
                             }
                             else{
                                 free(charPointer);
-                                startCharPointer -> next = NULL;
+                                
+                                if (braceOnTheStartOfString) {
+                                    strPointer -> curString = NULL;
+                                    braceOnTheStartOfString = 0;
+                                }
+                                else {
+                                    startCharPointer -> next = NULL;
+                                }
+                                
                                 toDelete = 0;
                                 inTheBraces = 0;
                                 break;
@@ -805,7 +813,6 @@ void deleteBraces(void){
                                 free(charPointer);
                                 if (strPointer -> next != NULL) {
                                     charPointer = strPointer -> next -> curString;
-                                    startCharPointer -> next = NULL;
                                     toMergeStrings = 1;
                                 }
                                 else {
@@ -841,7 +848,7 @@ void deleteBraces(void){
                                 braceOnTheStartOfString = 1;
                             }
                         }
-                            
+                        
                         if (charPointer -> next != NULL) {
                             nextCharPointer = charPointer -> next;
                             free(charPointer);
@@ -851,12 +858,16 @@ void deleteBraces(void){
                             free(charPointer);
                             if (strPointer -> next != NULL) {
                                 charPointer = strPointer -> next -> curString;
+                                toMergeStrings = 1;
                             }
                             else {
                                 charPointer = NULL;
+                                
+                                if(braceOnTheStartOfString){
+                                    
+                                }
                                 break;
                             }
-                            toMergeStrings = 1;
                             break;
                         }
                     }
@@ -871,8 +882,8 @@ void deleteBraces(void){
                         strPointer -> next -> prev = strPointer;
                     }
                     else {
-                        strPointer -> next = NULL;
                         free(strPointer -> next);
+                        strPointer -> next = NULL;
                     }
                     toMergeStrings = 0;
                 }
@@ -895,7 +906,7 @@ void deleteBraces(void){
                             bracesCounter--;
                         }
                         
-                        if ((bracesCounter == 0) && (inTheBraces == 1)) {
+                        if ((!bracesCounter) && (inTheBraces)) {
                             if (charPointer -> next != NULL) {
                                 nextCharPointer = charPointer -> next;
                                 free(charPointer);
@@ -915,7 +926,15 @@ void deleteBraces(void){
                             }
                             else{
                                 free(charPointer);
-                                startCharPointer -> next = NULL;
+                                
+                                if (braceOnTheStartOfString) {
+                                    strPointer -> curString = NULL;
+                                    braceOnTheStartOfString = 0;
+                                }
+                                else {
+                                    startCharPointer -> next = NULL;
+                                }
+                                
                                 toDelete = 0;
                                 inTheBraces = 0;
                                 break;
@@ -931,7 +950,7 @@ void deleteBraces(void){
                             else{
                                 free(charPointer);
                                 if (strPointer -> next != NULL) {
-                                    nextCharPointer = strPointer -> next -> curString;
+                                    charPointer = strPointer -> next -> curString;
                                     toMergeStrings = 1;
                                 }
                                 else {
@@ -977,18 +996,22 @@ void deleteBraces(void){
                             free(charPointer);
                             if (strPointer -> next != NULL) {
                                 charPointer = strPointer -> next -> curString;
+                                toMergeStrings = 1;
                             }
                             else {
                                 charPointer = NULL;
+                                
+                                if(braceOnTheStartOfString){
+                                    
+                                }
                                 break;
                             }
-                            toMergeStrings = 1;
                             break;
                         }
                     }
                 }
             }
-            i++;
+            
             if ((strPointer -> next != NULL) && (strPointer -> curString != NULL)) {
                 if (toMergeStrings) {
                     if (strPointer -> next -> next != NULL) {
@@ -997,8 +1020,8 @@ void deleteBraces(void){
                         strPointer -> next -> prev = strPointer;
                     }
                     else {
-                        strPointer -> next = NULL;
                         free(strPointer -> next);
+                        strPointer -> next = NULL;
                     }
                     toMergeStrings = 0;
                 }

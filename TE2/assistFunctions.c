@@ -819,7 +819,7 @@ int recognizeCmd(void){
                     fprintf(stderr, "Переполнение памяти!\n");
                     free(userString);
                     userString = NULL;
-                    return 9;
+                    return -9;
                 }
                 parametrs[parametrsLengthCounter] = userString[symbolPosition];
                 parametrsLengthCounter++;
@@ -829,7 +829,7 @@ int recognizeCmd(void){
             if (parametrs == NULL){
                 fprintf(stderr, "Переполнение памяти!\n");
                 free(parametrs);
-                return 9;
+                return -9;
             }
             parametrs[parametrsLengthCounter] = '\0';
             
