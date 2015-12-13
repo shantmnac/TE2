@@ -34,10 +34,7 @@ int main(int argc, char *argv[]){
     
     fileName = "l.txt";
     initFile(fileName);
-    parametrs = "";
-    deleteBraces();
-    writeF();
-    freeTheList();
+    printPages();
     
     /*if (argc == 2){
         fileName = argv[1];

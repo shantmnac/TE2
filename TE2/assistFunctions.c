@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <sys/ioctl.h>
 
+extern struct tabDest *whereToPutTab;
 extern char *comands[], *parametrs, *userString, *fileName;
 extern int screenCol, screenRow, screenNumY, tabWidth, wrapMod, userStringSize;
 extern struct listOfStrings *tmpStrPointer;
@@ -38,7 +39,7 @@ void clrscr(void){
 }
 //+
 void moveTxtY(char dir){
-    int rowNum = 0, colNum = 0, i;
+    int i, j = 1, rowNum = 0, colNum = 0, partOfTabToWrite = 0;
     
     if (dir == 'U'){
         for (i = 1; i < (2 * screenRow); i++) {
@@ -51,28 +52,37 @@ void moveTxtY(char dir){
     
     resetKeypress();
     
-    if (isItOk || (dir == 'U')) {
-        clrscr();
-    }
-    
     while ((tmpStrPointer != NULL) && (rowNum < screenRow)) {
         if (wrapMod) {
             while ((tmpCharPointer != NULL)) {
                 switch (tmpCharPointer -> curChar) {
                     case '\t':{
-                        if ((screenCol - colNum - 1) >= tabWidth){
-                            for (i = 0; i < tabWidth; i++) {
-                                printf(" ");
+                        partOfTabToWrite = tabWidth;
+                        while (1) {
+                            if ((screenCol - colNum - 1) >= partOfTabToWrite){
+                                for (i = 0; i < partOfTabToWrite; i++) {
+                                    printf(" ");
+                                }
+                                colNum += partOfTabToWrite;
+                                partOfTabToWrite = 0;
+                                break;
                             }
-                            colNum += tabWidth;
-                        }
-                        else {
-                            printf("\n<--->");
-                            for (i = 0; i < tabWidth; i++) {
-                                printf(" ");
+                            else {
+                                for (i = 0; i < screenCol - colNum - 1; i++) {
+                                    printf(" ");
+                                }
+                                partOfTabToWrite = partOfTabToWrite - (screenCol - colNum - 1);
+                                rowNum++;
+                                colNum = 0;
+                                
+                                if (rowNum == screenRow) {
+                                    break;
+                                }
+                                else{
+                                    printf("\n->");
+                                    colNum = 2;
+                                }
                             }
-                            colNum = tabWidth + 5;
-                            rowNum++;
                         }
                         break;
                     }
@@ -94,38 +104,54 @@ void moveTxtY(char dir){
                             colNum++;
                         }
                         else {
-                            printf("\n<--->%c", tmpCharPointer -> curChar);
-                            colNum = 6;
                             rowNum++;
+                            colNum = 0;
+                            
+                            if (rowNum == screenRow) {
+                                break;
+                            }
+                            else{
+                                printf("\n->%c", tmpCharPointer -> curChar);
+                                colNum = 3;
+                            }
                         }
                         break;
                     }
                 }
+                
                 tmpCharPointer = tmpCharPointer -> next;
-                if (rowNum >= screenRow){
+                if (rowNum == screenRow){
                     break;
                 }
             }
-
+            
             if (tmpStrPointer -> next != NULL) {
                 tmpStrPointer = tmpStrPointer -> next;
                 tmpCharPointer = tmpStrPointer -> curString;
-                isItOk = 1;
             }
-            else{
-                isItOk = 0;
-                break;
-            }
+            else tmpStrPointer = NULL;
         }
         else {
-            while ((colNum < screenCol) && (tmpCharPointer != NULL)) {
+            while ((tmpCharPointer != NULL)) {
                 switch (tmpCharPointer -> curChar) {
                     case '\t':{
-                        if ((screenCol - colNum) >= tabWidth){
+                        if ((screenCol - colNum - 1) >= tabWidth){
                             for (i = 0; i < tabWidth; i++) {
                                 printf(" ");
                             }
                             colNum += tabWidth;
+                        }
+                        else {
+                            for (i = 0; i < screenCol - colNum - 1; i++) {
+                                printf(" ");
+                            }
+                            printf("\n");
+                            rowNum++;
+                            whereToPutTab = (struct tabDest*)realloc(whereToPutTab, sizeof(struct tabDest) * j);
+                            j++;
+                            whereToPutTab -> numOfSpaces = tabWidth - (screenCol - colNum - 1);
+                            whereToPutTab -> position = rowNum;
+                            colNum = screenCol;
                         }
                         break;
                     }
@@ -137,27 +163,39 @@ void moveTxtY(char dir){
                         }
                         printf("\n");
                         rowNum++;
+                        colNum = 0;
                         break;
                     }
                         
                     default: {
-                        printf("%c", tmpCharPointer -> curChar);
-                        colNum++;
+                        if ((screenCol - colNum) >= 2) {
+                            printf("%c", tmpCharPointer -> curChar);
+                            colNum++;
+                        }
+                        else {
+                            colNum = screenCol;
+                            rowNum++;
+                            printf("\n");
+                        }
                         break;
                     }
                 }
+                
                 tmpCharPointer = tmpCharPointer -> next;
+                if ((rowNum == screenRow) || (colNum == screenCol)){
+                    break;
+                }
             }
-            colNum = 0;
+            if (rowNum == screenRow) {
+                break;
+            }
+            
             if (tmpStrPointer -> next != NULL) {
                 tmpStrPointer = tmpStrPointer -> next;
                 tmpCharPointer = tmpStrPointer -> curString;
-                isItOk = 1;
+                colNum = 0;
             }
-            else{
-                isItOk = 0;
-                break;
-            }
+            else tmpStrPointer = NULL;
         }
     }
     
@@ -167,9 +205,6 @@ void moveTxtY(char dir){
 void moveTxtX(char dir){
     int i, colNum = 0, rowNum = 0;
     
-    /*struct winsize screenSize;
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &screenSize);
-     */
     resetKeypress();
     clrscr();
     
