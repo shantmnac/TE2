@@ -7,7 +7,7 @@ void clrscr(void);
 void moveTxtY(char);
 void moveTxtX(char);
 void initCmd(void);
-int initFile(void);
+int initFile(char*);
 int readCmd(void);
 void setKeypress(void);
 void resetKeypress(void);

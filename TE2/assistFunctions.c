@@ -287,14 +287,14 @@ void initCmd(void){
     comands[15] = "help";
 }
 //+
-int initFile(void){
+int initFile(char *fileJan){
     int firstIteration = 1;
     char temp = '!';
     struct listOfStrings *tempPrevStr = NULL, *tempNextStr = NULL;
     struct listOfChars *tempPrevChar = NULL, *tempNextChar = NULL;
     FILE *inputFile;
     
-    inputFile = fopen(fileName, "rb");
+    inputFile = fopen(fileJan, "rb");
     if (inputFile == NULL) {
         fprintf(stderr, "Такого файла нет!\n");
         return 8;

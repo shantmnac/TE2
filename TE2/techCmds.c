@@ -47,7 +47,7 @@ int exitF(void){
 //+
 int readF(void){
     int i = 0, j = 0;
-    char *tempFileName1 = NULL, *tempFileName2 = NULL;
+    char *tempFileName1 = NULL;
     
     if (parametrs == NULL) {
         return 0;
@@ -76,18 +76,9 @@ int readF(void){
     }
     tempFileName1[j] = '\0';
     
-    tempFileName2 = (char*)malloc(fileNameLength);
-    tempFileName2 = fileName;
-    
-    fileName = (char*)realloc(fileName, j+1);
-    fileName = tempFileName1;
-    initFile();
-    
-    fileName = (char*)realloc(fileName, fileNameLength);
-    fileName = tempFileName2;
+    initFile(tempFileName1);
     
     free(tempFileName1);
-    free(tempFileName2);
     free(parametrs);
     parametrs = NULL;
     return 0;
@@ -127,7 +118,7 @@ int openF(void){
     free(parametrs);
     parametrs = NULL;
     
-    initFile();
+    initFile(fileName);
     
     return 0;
 }
@@ -203,27 +194,26 @@ void writeF(void){
 }
 
 int helpF(void){
-    char *tempFileName;
+    int returnValue = 0;
     
-    tempFileName = &fileName[0];
+    returnValue = initFile("help.txt");
     
-    fileName = "help.txt";
-    
-    if(initFile() == 9){
+    if(returnValue == 9){
         return 9;
     }
     
-    if(initFile() == 8){
-        fileName = tempFileName;
+    if(returnValue == 8){
         return 0;
     }
     
     printPages();
     freeTheList();
     
-    fileName = tempFileName;
-    if(initFile() == 9){
+    returnValue = initFile(fileName);
+    
+    if(returnValue == 9){
         return 9;
     }
+    
     return 0;
 }
