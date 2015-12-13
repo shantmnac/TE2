@@ -24,7 +24,7 @@ int screenCol = 80, screenRow = 25;
 
 int main(int argc, char *argv[]){
     
-    int exit = 0, returningInt, i = 0;
+    int exit = 0, returningInt;
     
     /*
      ioctl(0, TIOCGWINSZ, &screenSize);
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]){
     
     if (argc == 2){
         fileName = argv[1];
-        if(initFile() == 9){
+        if(initFile(fileName) == 9){
             freeTheList();
             return 0;
         }
