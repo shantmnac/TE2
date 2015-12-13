@@ -39,7 +39,7 @@ void clrscr(void){
 }
 //+
 void moveTxtY(char dir){
-    int i, j = 1, rowNum = 0, colNum = 0, partOfTabToWrite = 0;
+    int rowNum = 0, colNum = 0, i, partOfTabToWrite = 0, j = 1;
     
     if (dir == 'U'){
         for (i = 1; i < (2 * screenRow); i++) {
@@ -51,6 +51,10 @@ void moveTxtY(char dir){
     }
     
     resetKeypress();
+    
+    if (isItOk || (dir == 'U')) {
+        clrscr();
+    }
     
     while ((tmpStrPointer != NULL) && (rowNum < screenRow)) {
         if (wrapMod) {
@@ -86,7 +90,7 @@ void moveTxtY(char dir){
                         }
                         break;
                     }
-                        
+                    
                     case '\n': {
                         if (rowNum == (screenRow - 1)){
                             rowNum++;
@@ -118,7 +122,6 @@ void moveTxtY(char dir){
                         break;
                     }
                 }
-                
                 tmpCharPointer = tmpCharPointer -> next;
                 if (rowNum == screenRow){
                     break;
@@ -128,8 +131,12 @@ void moveTxtY(char dir){
             if (tmpStrPointer -> next != NULL) {
                 tmpStrPointer = tmpStrPointer -> next;
                 tmpCharPointer = tmpStrPointer -> curString;
+                isItOk = 1;
             }
-            else tmpStrPointer = NULL;
+            else{
+                isItOk = 0;
+                break;
+            }
         }
         else {
             while ((tmpCharPointer != NULL)) {
@@ -195,7 +202,10 @@ void moveTxtY(char dir){
                 tmpCharPointer = tmpStrPointer -> curString;
                 colNum = 0;
             }
-            else tmpStrPointer = NULL;
+            else{
+                isItOk = 0;
+                break;
+            }
         }
     }
     
