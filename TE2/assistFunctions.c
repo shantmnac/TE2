@@ -10,6 +10,7 @@
 
 extern struct tabDest *whereToPutTab;
 extern char *comands[], *parametrs, *userString, *fileName;
+char *secondStringForReplace = NULL;
 extern int screenCol, screenRow, screenNumY, tabWidth, wrapMod, userStringSize;
 extern struct listOfStrings *tmpStrPointer;
 extern struct listOfChars *tmpCharPointer;
@@ -414,7 +415,7 @@ int initFile(char *fileJan){
 //+
 int readCmd(void){
     char tempCur = '!', tempPrev = '!';
-    int firstSymbol = 0, specSymbol = 0;
+    int firstSymbol = 0, specSymbol = 0, counterForSecondString = 0;
 
     userString = NULL;
     userStringSize = 0;
@@ -650,6 +651,7 @@ int readCmd(void){
                         }
                         
                         if (tempCur == '"') {
+                            
                             userString = (char*)realloc(userString, (userStringSize + 1) * sizeof(char));
                             if (userString == NULL){
                                 fprintf(stderr, "Переполнение памяти!\n");
@@ -658,10 +660,122 @@ int readCmd(void){
                             }
                             userString[userStringSize] = '\0';
                             
-                            while (tempCur != '\n') {
-                                tempCur = getchar();
+                            tempCur = getchar();
+                            
+                            if (tempCur == '\n') {
+                                return 0;
                             }
-                            return 0;
+                            
+                            if (tempCur != '"') {
+                                while (1) {
+                                    tempCur = getchar();
+                                    if (tempCur == '"') {
+                                        break;
+                                    }
+                                    else{
+                                        if (tempCur == '\n') {
+                                            return 0;
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            tempCur = getchar();
+                            tempPrev = tempCur;
+                            while (1) {
+                                if (tempCur == '\\') {
+                                    tempPrev = tempCur;
+                                    tempCur = getchar();
+                                }
+                                
+                                if (tempPrev == '\\') {
+                                    tempPrev = tempCur;
+                                    secondStringForReplace = (char*)realloc(secondStringForReplace, (counterForSecondString + 1) * sizeof(char));
+                                    if (secondStringForReplace == NULL){
+                                        fprintf(stderr, "Переполнение памяти!\n");
+                                        free(secondStringForReplace);
+                                        return 9;
+                                    }
+                                    switch (tempCur) {
+                                        case 'n':{
+                                            secondStringForReplace[counterForSecondString] = '\n';
+                                            counterForSecondString++;
+                                            tempCur = getchar();
+                                            break;
+                                        }
+                                            
+                                        case 't':{
+                                            secondStringForReplace[counterForSecondString] = '\t';
+                                            counterForSecondString++;
+                                            tempCur = getchar();
+                                            break;
+                                        }
+                                            
+                                        case 'b':{
+                                            secondStringForReplace[counterForSecondString] = '\b';
+                                            counterForSecondString++;
+                                            tempCur = getchar();
+                                            break;
+                                        }
+                                            
+                                        case '\\':{
+                                            secondStringForReplace[counterForSecondString] = '\\';
+                                            counterForSecondString++;
+                                            tempCur = getchar();
+                                            tempPrev = '!';
+                                            break;
+                                        }
+                                            
+                                        case '"':{
+                                            secondStringForReplace[counterForSecondString] = '\"';
+                                            counterForSecondString++;
+                                            tempCur = getchar();
+                                            break;
+                                        }
+                                            
+                                        default:{
+                                            secondStringForReplace[counterForSecondString] = tempCur;
+                                            counterForSecondString++;
+                                            tempCur = getchar();
+                                            break;
+                                        }
+                                    }
+                                    continue;
+                                }
+                                
+                                if (tempCur == '"') {
+                                    secondStringForReplace = (char*)realloc(secondStringForReplace, (counterForSecondString + 1) * sizeof(char));
+                                    if (secondStringForReplace == NULL){
+                                        fprintf(stderr, "Переполнение памяти!\n");
+                                        free(secondStringForReplace);
+                                        return 9;
+                                    }
+                                    
+                                    secondStringForReplace[counterForSecondString] = '\0';
+                                    
+                                    while (getchar() != '\n') {
+                                    }
+                                    
+                                    return 0;
+                                }
+                                else {
+                                    if (tempCur == '\n'){
+                                        fprintf(stderr, "Нарушено сочетание кавычек!\n");
+                                        free(secondStringForReplace);
+                                        return 1;
+                                    }
+                                    tempPrev = tempCur;
+                                    secondStringForReplace = (char*)realloc(secondStringForReplace, (counterForSecondString + 1) * sizeof(char));
+                                    if (secondStringForReplace == NULL){
+                                        fprintf(stderr, "Переполнение памяти!\n");
+                                        free(secondStringForReplace);
+                                        return 9;
+                                    }
+                                    secondStringForReplace[counterForSecondString] = tempCur;
+                                    tempCur = getchar();
+                                    counterForSecondString++;
+                                }
+                            }
                         }
                         else {
                             if (tempCur == '\n'){

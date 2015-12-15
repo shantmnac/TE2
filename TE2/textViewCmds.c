@@ -30,7 +30,7 @@ void printPages(void){
     screenCol = screenSize.ws_col;
     screenRow = screenSize.ws_row;
     
- */
+*/
     
     tmpStrPointer = pointerForStrings;
     tmpCharPointer = pointerForStrings -> curString;

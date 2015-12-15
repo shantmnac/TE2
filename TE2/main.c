@@ -22,6 +22,8 @@ struct listOfChars *tmpCharPointer;
 struct winsize screenSize;
 int screenCol = 80, screenRow = 25;
 
+extern char *secondStringForReplace;
+
 int main(int argc, char *argv[]){
     
     int exit = 0, returningInt;
@@ -32,11 +34,7 @@ int main(int argc, char *argv[]){
      screenRow = screenSize.ws_row;
      */
     
-    fileName = "l.txt";
-    initFile(fileName);
-    printPages();
-    
-    /*if (argc == 2){
+    if (argc == 2){
         fileName = argv[1];
         if(initFile(fileName) == 9){
             freeTheList();
@@ -168,6 +166,6 @@ int main(int argc, char *argv[]){
         }
     }
     
-    freeTheList();*/
+    freeTheList();
     return 0;
 }

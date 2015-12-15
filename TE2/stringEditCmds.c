@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <sys/ioctl.h>
 
-extern char *comands[], *parametrs, *userString;
+extern char *comands[], *parametrs, *userString, *secondStringForReplace;
 extern char fileName[];
 extern int screenCol, screenRow, screenNumY, tabWidth, wrapMod, isFileSaved;
 extern struct listOfStrings *tmpStrPointer;
@@ -1036,3 +1036,394 @@ void deleteBraces(void){
         }
     }
 }
+
+/*int replaceSubstring(void){
+    int i = 0, j = 0, startR = 0, endR = 0, putOnEnd = 0, putOnStart = 0, firstIteration = 1, firstString = 1, iterationCounter = 0, coolSubstring = 0;
+    char *substring1 = NULL;
+    struct listOfChars *tmpSubstring = NULL, *tmpPrevSubstring = NULL, *begPointer = NULL, *endPointer = NULL, *firstCharUntilReplace = NULL;
+    struct listOfStrings *newString = NULL;
+    
+    if ((pointerForStrings == NULL) || (pointerForStrings -> curString == NULL)){
+        fprintf(stderr, "Пустой файл!\n");
+        //free(parametrs);
+        parametrs = NULL;
+        return 0;
+    }
+    
+    if (secondStringForReplace == NULL) {
+        fprintf(stderr, "Неккоректная строка на замену!\n");
+        free(parametrs);
+        parametrs = NULL;
+        return 0;
+    }
+    
+    if (parametrs != NULL) {
+        if ((parametrs[i] != '"') && (parametrs[i] != '^') && (parametrs[i] != '$')) {
+            while (parametrs[i] != ' ') {
+                if (parametrs[i] == '\0') {
+                    break;
+                }
+                if (isdigit(parametrs[i])) {
+                    startR = startR * 10 + (int)parametrs[i] - 48;
+                    i++;
+                    j++;
+                }
+                else {
+                    break;
+                }
+            }
+            
+            if (parametrs[i] == ' ') {
+                i++;
+                j = 0;
+                
+                while (parametrs[i] != ' ') {
+                    if (parametrs[i] == '\0') {
+                        break;
+                    }
+                    if (isdigit(parametrs[i])) {
+                        endR = endR * 10 + (int)parametrs[i] - 48;
+                        i++;
+                        j++;
+                    }
+                    else {
+                        fprintf(stderr, "Неккоректный параметр!\n");
+                        //free(parametrs);
+                        parametrs = NULL;
+                        return 0;
+                    }
+                }
+                
+                if (startR > endR) {
+                    fprintf(stderr, "Неккоректный параметр!\n");
+                    //free(parametrs);
+                    parametrs = NULL;
+                    return 0;
+                }
+                else{
+                    iterationCounter = endR - startR + 1;
+                }
+            }
+            else{
+                endR = -1;
+            }
+        }
+    }
+    else{
+        return 0;
+    }
+    
+    if (parametrs[i] == ' ') {
+        i++;
+    }
+    
+    j = 0;
+    
+    if (parametrs[i] == '$') {
+        putOnEnd = 1;
+    }
+    else {
+        if (parametrs[i] == '^') {
+            putOnStart = 1;
+        }
+        else{
+            if (parametrs[i] == '"') {
+                i++;
+                while (parametrs[i] != '\0') {
+                    substring1 = (char*)realloc(substring1, j + 1);
+                    substring1[j] = parametrs[i];
+                    i++;
+                    j++;
+                }
+                
+                if (j == 0) {
+                    fprintf(stderr, "Неккоректный параметр!\n");
+                    free(parametrs);
+                    parametrs = NULL;
+                    return 0;
+                }
+                
+                substring1 = (char*)realloc(substring1, j + 1);
+                substring1[j] = '\0';
+                
+                free(parametrs);
+                parametrs = NULL;
+            }
+            else{
+                fprintf(stderr, "Неккоректный параметр!\n");
+                free(parametrs);
+                parametrs = NULL;
+                return 0;
+            }
+        }
+    }
+    
+    tmpStrPointer = pointerForStrings;
+    
+    j = 0;
+    isFileSaved = 0;
+    
+    for (i = 1; i < startR; i++) {
+        if (tmpStrPointer -> next != NULL) {
+            tmpStrPointer = tmpStrPointer -> next;
+        }
+        else {
+            fprintf(stderr, "Выход за диапазон строк!\n");
+            return 0;
+        }
+    }
+    
+    tmpCharPointer = tmpStrPointer -> curString;
+    
+    if (putOnStart) {
+        if (!iterationCounter) {
+            while (1) {
+                if ((tmpStrPointer != NULL) && (tmpCharPointer != NULL)) {
+                    while(secondStringForReplace[j] != '\0'){
+                        
+                        tmpSubstring = (struct listOfChars*)malloc(sizeof(struct listOfChars));
+                        
+                        if (firstIteration){
+                            begPointer = tmpSubstring;
+                            tmpSubstring->prev = NULL;
+                            tmpPrevSubstring = tmpSubstring;
+                            firstIteration = 0;
+                        }
+                        
+                        tmpSubstring->curChar = secondStringForReplace[j];
+                        tmpSubstring->prev = tmpPrevSubstring;
+                        tmpPrevSubstring->next = tmpSubstring;
+                        tmpPrevSubstring = tmpSubstring;
+                        
+                        if (secondStringForReplace[j] == '\n') {
+                            tmpSubstring -> next = NULL;
+                            newString = (struct listOfStrings*)malloc(sizeof(struct listOfStrings));
+                            newString -> prev = tmpStrPointer;
+                            newString -> next = tmpStrPointer -> next;
+                            tmpStrPointer -> next -> prev = newString;
+                            tmpStrPointer -> next = newString;
+                            newString -> curString = tmpCharPointer;
+                            firstIteration = 1;
+                        }
+                        j++;
+                    }
+                    
+                    tmpSubstring -> next = tmpCharPointer;
+                    tmpCharPointer -> prev = tmpSubstring;
+                    
+                    if (firstString){
+                        pointerForStrings -> curString = begPointer;
+                        firstString = 0;
+                    }
+                    else{
+                        tmpStrPointer -> curString = begPointer;
+                    }
+                    
+                    if (tmpStrPointer -> next != NULL) {
+                        j = 0;
+                        firstIteration = 1;
+                        tmpStrPointer = tmpStrPointer -> next;
+                        tmpCharPointer = tmpStrPointer -> curString;
+                    }
+                    else{
+                        return 0;
+                    }
+                }
+            }
+        }
+        else{
+            for (i = 0; i < iterationCounter; i++) {
+                if ((tmpStrPointer != NULL) && (tmpCharPointer != NULL)) {
+                    while(secondStringForReplace[j] != '\0'){
+                        
+                        tmpSubstring = (struct listOfChars*)malloc(sizeof(struct listOfChars));
+                        
+                        if (firstIteration){
+                            begPointer = tmpSubstring;
+                            tmpSubstring->prev = NULL;
+                            tmpPrevSubstring = tmpSubstring;
+                            firstIteration = 0;
+                        }
+                        
+                        tmpSubstring->curChar = secondStringForReplace[j];
+                        tmpSubstring->prev = tmpPrevSubstring;
+                        tmpPrevSubstring->next = tmpSubstring;
+                        tmpPrevSubstring = tmpSubstring;
+                        j++;
+                    }
+                    
+                    tmpSubstring -> next = tmpCharPointer;
+                    tmpCharPointer -> prev = tmpSubstring;
+                    
+                    if (firstString){
+                        pointerForStrings -> curString = begPointer;
+                        firstString = 0;
+                    }
+                    else{
+                        tmpStrPointer -> curString = begPointer;
+                    }
+                    
+                    if (tmpStrPointer -> next != NULL) {
+                        j = 0;
+                        firstIteration = 1;
+                        tmpStrPointer = tmpStrPointer -> next;
+                        tmpCharPointer = tmpStrPointer -> curString;
+                    }
+                    else{
+                        return 0;
+                    }
+                }
+            }
+        }
+    }
+    else {
+        if (putOnEnd) {
+            if (!iterationCounter) {
+                while (1) {
+                if ((tmpStrPointer != NULL) && (tmpCharPointer != NULL)) {
+                    
+                    while (tmpCharPointer -> next != NULL) {
+                        if (tmpCharPointer -> next -> curChar != '\n') {
+                            tmpCharPointer = tmpCharPointer -> next;
+                        }
+                        else{
+                            free(tmpCharPointer -> next);
+                            break;
+                        }
+                    }
+                    
+                    while(secondStringForReplace[j] != '\0'){
+                        
+                        tmpSubstring = (struct listOfChars*)malloc(sizeof(struct listOfChars));
+                        
+                        if (firstIteration){
+                            begPointer = tmpSubstring;
+                            tmpSubstring->prev = tmpCharPointer;
+                            tmpCharPointer -> next = begPointer;
+                            tmpPrevSubstring = tmpSubstring;
+                            firstIteration = 0;
+                        }
+                        
+                        tmpSubstring->curChar = secondStringForReplace[j];
+                        tmpSubstring->prev = tmpPrevSubstring;
+                        tmpPrevSubstring->next = tmpSubstring;
+                        tmpPrevSubstring = tmpSubstring;
+                        j++;
+                    }
+                    
+                    tmpSubstring = (struct listOfChars*)malloc(sizeof(struct listOfChars));
+                    tmpSubstring->curChar = '\n';
+                    tmpSubstring->prev = tmpPrevSubstring;
+                    tmpPrevSubstring->next = tmpSubstring;
+                    tmpSubstring -> next = NULL;
+                    
+                    if (tmpStrPointer -> next != NULL) {
+                        j = 0;
+                        firstIteration = 1;
+                        tmpStrPointer = tmpStrPointer -> next;
+                        tmpCharPointer = tmpStrPointer -> curString;
+                    }
+                    else{
+                        return 0;
+                    }
+                }
+            }
+            }
+            else{
+                for (i = 0; i<iterationCounter; i++) {
+                    if ((tmpStrPointer != NULL) && (tmpCharPointer != NULL)) {
+                        
+                        while (tmpCharPointer -> next != NULL) {
+                            if (tmpCharPointer -> next -> curChar != '\n') {
+                                tmpCharPointer = tmpCharPointer -> next;
+                            }
+                            else{
+                                free(tmpCharPointer -> next);
+                                break;
+                            }
+                        }
+                        
+                        while(secondStringForReplace[j] != '\0'){
+                            
+                            tmpSubstring = (struct listOfChars*)malloc(sizeof(struct listOfChars));
+                            
+                            if (firstIteration){
+                                begPointer = tmpSubstring;
+                                tmpSubstring->prev = tmpCharPointer;
+                                tmpCharPointer -> next = begPointer;
+                                tmpPrevSubstring = tmpSubstring;
+                                firstIteration = 0;
+                            }
+                            
+                            tmpSubstring->curChar = secondStringForReplace[j];
+                            tmpSubstring->prev = tmpPrevSubstring;
+                            tmpPrevSubstring->next = tmpSubstring;
+                            tmpPrevSubstring = tmpSubstring;
+                            j++;
+                        }
+                        
+                        tmpSubstring = (struct listOfChars*)malloc(sizeof(struct listOfChars));
+                        tmpSubstring->curChar = '\n';
+                        tmpSubstring->prev = tmpPrevSubstring;
+                        tmpPrevSubstring->next = tmpSubstring;
+                        tmpSubstring -> next = NULL;
+                        
+                        if (tmpStrPointer -> next != NULL) {
+                            j = 0;
+                            firstIteration = 1;
+                            tmpStrPointer = tmpStrPointer -> next;
+                            tmpCharPointer = tmpStrPointer -> curString;
+                        }
+                        else{
+                            return 0;
+                        }
+                    }
+                }
+            }
+        }
+        else{
+            if (!iterationCounter) {
+                while (1) {
+                    while (1) {
+                        if (secondStringForReplace[j] != '\0') {
+                            if (tmpCharPointer -> curChar == secondStringForReplace[j]) {
+                                if (!coolSubstring) {
+                                    firstCharUntilReplace = tmpCharPointer -> prev;
+                                    coolSubstring = 1;
+                                }
+                                j++;
+                                if (tmpCharPointer -> next != NULL) {
+                                    tmpCharPointer = tmpCharPointer -> next;
+                                }
+                                else {
+                                    coolSubstring = 0;
+                                    j = 0;
+                                    break;
+                                }
+                            }
+                            else{
+                                coolSubstring = 0;
+                                j = 0;
+                                if (tmpCharPointer -> next != NULL) {
+                                    tmpCharPointer = tmpCharPointer -> next;
+                                }
+                                else {
+                                    coolSubstring = 0;
+                                    j = 0;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                for (i = 0; i < iterationCounter; i++) {
+                    
+                }
+            }
+        }
+    }
+    
+    return 0;
+}*/

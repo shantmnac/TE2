@@ -13,7 +13,7 @@ extern struct listOfStrings *pointerForStrings;
 
 
 int insertAfter(void){
-    int i = 0, strNum = 0, firstIteration = 1;;
+    int i = 0, strNum = 0, firstIteration = 1;
     struct listOfStrings *tempPrevStr = NULL, *tempNextStr = NULL, *begPointer = NULL, *tempStr = NULL;
     struct listOfChars *tempPrevChar = NULL, *tempNextChar = NULL;
     
