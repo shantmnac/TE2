@@ -31,6 +31,12 @@ void printPages(void){
     screenRow = screenSize.ws_row;
     
 */
+    if ((pointerForStrings == NULL) || (pointerForStrings -> curString == NULL)){
+        fprintf(stderr, "Пустой файл!\n");
+        free(parametrs);
+        parametrs = NULL;
+        return;
+    }
     
     tmpStrPointer = pointerForStrings;
     tmpCharPointer = pointerForStrings -> curString;
@@ -274,6 +280,13 @@ void printRange(void){
     int i = 0, j = 0, startR = 0, endR = 0;
     struct listOfStrings *prevStr, *nextStr, *firstStr, *lastStr, *veryImportantString = NULL;
     
+    if ((pointerForStrings == NULL) || (pointerForStrings -> curString == NULL)){
+        fprintf(stderr, "Пустой файл!\n");
+        free(parametrs);
+        parametrs = NULL;
+        return;
+    }
+    
     if (parametrs == NULL) {
         printPages();
         return;
@@ -290,7 +303,7 @@ void printRange(void){
         }
         else {
             fprintf(stderr, "Неккоректный параметр!\n");
-            //free(parametrs);
+            free(parametrs);
             parametrs = NULL;
             return;
         }
@@ -311,7 +324,7 @@ void printRange(void){
             }
             else {
                 fprintf(stderr, "Неккоректный параметр!\n");
-                //free(parametrs);
+                free(parametrs);
                 parametrs = NULL;
                 return;
             }
@@ -319,7 +332,7 @@ void printRange(void){
         
         if (startR > endR) {
             fprintf(stderr, "Неккоректный параметр!\n");
-            //free(parametrs);
+            free(parametrs);
             parametrs = NULL;
             return;
         }
@@ -328,7 +341,7 @@ void printRange(void){
         endR = -1;
     }
     
-    //free(parametrs);
+    free(parametrs);
     parametrs = NULL;
     
     tmpStrPointer = pointerForStrings;
@@ -394,7 +407,7 @@ void printRange(void){
     nextStr -> prev = lastStr;
     return;
 }
-//+
++
 void setWrap(void){
     int i = 0;
     char yesM[3] = "yes";
@@ -435,7 +448,7 @@ void setWrap(void){
     parametrs = NULL;
     fprintf(stderr, "Некорректный параметр!\n");
 }
-//+
++
 void setTabWidth(void){
     int temp;
     temp = atoi(parametrs);

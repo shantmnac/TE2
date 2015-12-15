@@ -23,7 +23,7 @@ void deleteRange(void){
     struct listOfStrings *tmpStr, *nextStr, *firstStr;
     
     if ((pointerForStrings == NULL) || (pointerForStrings -> curString == NULL)) {
-        //free(parametrs);
+        free(parametrs);
         parametrs = NULL;
         return;
     }
@@ -41,7 +41,7 @@ void deleteRange(void){
         }
         else {
             fprintf(stderr, "Неккоректный параметр!\n");
-            ////free(parametrs);
+            free(parametrs);
             parametrs = NULL;
             return;
         }
@@ -51,7 +51,7 @@ void deleteRange(void){
     
     if (startR == 0) {
         fprintf(stderr, "Неккоректный параметр!\n");
-        ////free(parametrs);
+        free(parametrs);
         parametrs = NULL;
         return;
     }
@@ -69,7 +69,7 @@ void deleteRange(void){
             }
             else {
                 fprintf(stderr, "Неккоректный параметр!\n");
-                ////free(parametrs);
+                free(parametrs);
                 parametrs = NULL;
                 return;
             }
@@ -82,7 +82,7 @@ void deleteRange(void){
     if (endR != -1) {
         if (startR > endR) {
             fprintf(stderr, "Неккоректный параметр!\n");
-            ////free(parametrs);
+            free(parametrs);
             parametrs = NULL;
             return;
         }
@@ -105,12 +105,12 @@ void deleteRange(void){
                     freeTheString(nextStr -> curString);
                     free(nextStr);
                     firstStr -> next = NULL;
-                    ////free(parametrs);
+                    free(parametrs);
                     parametrs = NULL;
                     return;
                 }
             }
-            ////free(parametrs);
+            free(parametrs);
             parametrs = NULL;
             return;
         }
@@ -122,7 +122,7 @@ void deleteRange(void){
                 else {
                     fprintf(stderr, "Неккоректный параметр!\n");
                     isFileSaved = 1;
-                    ////free(parametrs);
+                    free(parametrs);
                     parametrs = NULL;
                     return;
                 }
@@ -142,7 +142,7 @@ void deleteRange(void){
                     freeTheString(nextStr -> curString);
                     free(nextStr);
                     firstStr -> next = NULL;
-                    ////free(parametrs);
+                    free(parametrs);
                     parametrs = NULL;
                     return;
                 }
@@ -162,14 +162,14 @@ void deleteRange(void){
                     freeTheString(nextStr -> curString);
                     free(nextStr);
                     pointerForStrings = NULL;
-                    ////free(parametrs);
+                    free(parametrs);
                     parametrs = NULL;
                     return;
                 }
             }
             nextStr -> prev = NULL;
             pointerForStrings = nextStr;
-            ////free(parametrs);
+            free(parametrs);
             parametrs = NULL;
             return;
         }
@@ -181,7 +181,7 @@ void deleteRange(void){
                 else {
                     fprintf(stderr, "Неккоректный параметр!\n");
                     isFileSaved = 1;
-                    ////free(parametrs);
+                    free(parametrs);
                     parametrs = NULL;
                     return;
                 }
@@ -200,7 +200,7 @@ void deleteRange(void){
                     freeTheString(nextStr -> curString);
                     free(nextStr);
                     firstStr -> next = NULL;
-                    ////free(parametrs);
+                    free(parametrs);
                     parametrs = NULL;
                     return;
                 }
@@ -208,7 +208,7 @@ void deleteRange(void){
             
             firstStr -> next = nextStr;
             nextStr -> prev = firstStr;
-            ////free(parametrs);
+            free(parametrs);
             parametrs = NULL;
             return;
         }
@@ -222,7 +222,7 @@ void editString(void){
     struct listOfChars *charPointer;
     
     if ((pointerForStrings == NULL) || (pointerForStrings -> curString == NULL)) {
-        //free(parametrs);
+        free(parametrs);
         parametrs = NULL;
         return;
     }
@@ -234,14 +234,14 @@ void editString(void){
     
     if (parametrs == NULL){
         fprintf(stderr, "Неккоректный параметр!\n");
-        //free(parametrs);
+        free(parametrs);
         return;
     }
     
     while (parametrs[i] != ' ') {
         if (parametrs[i] == '\0') {
             fprintf(stderr, "Неккоректный параметр!\n");
-            //free(parametrs);
+            free(parametrs);
             parametrs = NULL;
             return;
         }
@@ -252,7 +252,7 @@ void editString(void){
         }
         else {
             fprintf(stderr, "Неккоректный параметр!\n");
-            //free(parametrs);
+            free(parametrs);
             parametrs = NULL;
             return;
         }
@@ -267,7 +267,7 @@ void editString(void){
     while (parametrs[i] != ' ') {
         if (parametrs[i] == '\0') {
             fprintf(stderr, "Неккоректный параметр!\n");
-            //free(parametrs);
+            free(parametrs);
             parametrs = NULL;
             return;
         }
@@ -278,7 +278,7 @@ void editString(void){
         }
         else {
             fprintf(stderr, "Неккоректный параметр!\n");
-            //free(parametrs);
+            free(parametrs);
             parametrs = NULL;
             return;
         }
@@ -326,7 +326,7 @@ void editString(void){
         insChar = parametrs[i];
     }
     
-    //free(parametrs);
+    free(parametrs);
     parametrs = NULL;
     
     strPointer = pointerForStrings;
@@ -471,14 +471,14 @@ int insertSymbol(void){
     
     if (parametrs == NULL){
         fprintf(stderr, "Неккоректный параметр!\n");
-        //free(parametrs);
+        free(parametrs);
         return 0;
     }
     
     while (parametrs[i] != ' ') {
         if (parametrs[i] == '\0') {
             fprintf(stderr, "Неккоректный параметр!\n");
-            //free(parametrs);
+            free(parametrs);
             parametrs = NULL;
             return 0;
         }
@@ -489,7 +489,7 @@ int insertSymbol(void){
         }
         else {
             fprintf(stderr, "Неккоректный параметр!\n");
-            //free(parametrs);
+            free(parametrs);
             parametrs = NULL;
             return 0;
         }
@@ -504,7 +504,7 @@ int insertSymbol(void){
     while (parametrs[i] != ' ') {
         if (parametrs[i] == '\0') {
             fprintf(stderr, "Неккоректный параметр!\n");
-            //free(parametrs);
+            free(parametrs);
             parametrs = NULL;
             return 0;
         }
@@ -515,7 +515,7 @@ int insertSymbol(void){
         }
         else {
             fprintf(stderr, "Неккоректный параметр!\n");
-            //free(parametrs);
+            free(parametrs);
             parametrs = NULL;
             return 0;
         }
@@ -563,7 +563,7 @@ int insertSymbol(void){
         insChar = parametrs[i];
     }
     
-    //free(parametrs);
+    free(parametrs);
     parametrs = NULL;
     
     strPointer = pointerForStrings;
@@ -727,7 +727,7 @@ void deleteBraces(void){
             
             if (startR > endR) {
                 fprintf(stderr, "Неккоректный параметр!\n");
-                //free(parametrs);
+                free(parametrs);
                 parametrs = NULL;
                 return;
             }
@@ -736,7 +736,7 @@ void deleteBraces(void){
             endR = -1;
         }
         
-        //free(parametrs);
+        free(parametrs);
         parametrs = NULL;
     } 
     
@@ -1045,7 +1045,7 @@ void deleteBraces(void){
     
     if ((pointerForStrings == NULL) || (pointerForStrings -> curString == NULL)){
         fprintf(stderr, "Пустой файл!\n");
-        //free(parametrs);
+        free(parametrs);
         parametrs = NULL;
         return 0;
     }
@@ -1088,7 +1088,7 @@ void deleteBraces(void){
                     }
                     else {
                         fprintf(stderr, "Неккоректный параметр!\n");
-                        //free(parametrs);
+                        free(parametrs);
                         parametrs = NULL;
                         return 0;
                     }
@@ -1096,7 +1096,7 @@ void deleteBraces(void){
                 
                 if (startR > endR) {
                     fprintf(stderr, "Неккоректный параметр!\n");
-                    //free(parametrs);
+                    free(parametrs);
                     parametrs = NULL;
                     return 0;
                 }

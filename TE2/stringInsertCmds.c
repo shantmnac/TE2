@@ -151,7 +151,7 @@ int insertAfter(void){
         tempNextStr -> next = NULL;
         tempStr -> next = begPointer;
         begPointer -> prev = tempStr;
-        //free(parametrs);
+        free(parametrs);
         parametrs = NULL;
         return 0;
     }
@@ -160,7 +160,7 @@ int insertAfter(void){
             tempNextStr -> next = pointerForStrings;
             pointerForStrings -> prev = tempNextStr;
             pointerForStrings = tempNextStr;
-            //free(parametrs);
+            free(parametrs);
             parametrs = NULL;
             return 0;
         }
@@ -174,7 +174,7 @@ int insertAfter(void){
                     tempNextStr -> next = NULL;
                     tempStr -> next = begPointer;
                     begPointer -> prev = tempStr;
-                    //free(parametrs);
+                    free(parametrs);
                     parametrs = NULL;
                     return 0;
                 }
@@ -182,7 +182,7 @@ int insertAfter(void){
             tempNextStr -> next = tempStr -> next;
             tempStr -> next = begPointer;
             begPointer -> prev = tempStr;
-            //free(parametrs);
+            free(parametrs);
             parametrs = NULL;
             return 0;
         }
