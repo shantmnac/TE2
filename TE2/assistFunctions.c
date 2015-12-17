@@ -950,7 +950,7 @@ int recognizeCmd(void){
     
     if (userString == NULL) {
         fprintf(stderr, "Пустая команда!\n");
-        return 0;
+        return -8;
     }
     
     for (cmdNum = 0; cmdNum < 16; cmdNum++){
@@ -993,17 +993,18 @@ int recognizeCmd(void){
                 }
                 parametrs[parametrsLengthCounter] = '\0';
                 
-                free(userString);
-                userString = NULL;
-                return cmdNum;
             }
+            
+            free(userString);
+            userString = NULL;
+            return cmdNum;
         }
     }
         
     fprintf(stderr ,"Некорректная команда!\n");
     free(userString);
     userString = NULL;
-    return 0;
+    return -8;
 }
 //+
 void freeTheList(void){
