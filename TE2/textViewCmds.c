@@ -389,7 +389,9 @@ void printRange(void){
         nextStr = tmpStrPointer -> next;
     }
     
-    firstStr -> prev = NULL;
+    if (firstStr != NULL) {
+        firstStr -> prev = NULL;
+    }
     
     if (prevStr != NULL) {
         prevStr -> next = NULL;
@@ -404,10 +406,21 @@ void printRange(void){
     printPages();
     
     pointerForStrings = veryImportantString;
-    firstStr -> prev = prevStr;
-    prevStr -> next = firstStr;
-    lastStr -> next = nextStr;
-    nextStr -> prev = lastStr;
+    
+    if (firstStr != NULL) {
+        firstStr -> prev = prevStr;
+    }
+    
+    if (prevStr != NULL) {
+        prevStr -> next = firstStr;
+    }
+    if (nextStr != NULL) {
+        nextStr -> prev = lastStr;
+    }
+    
+    if (lastStr != NULL) {
+        lastStr -> next = nextStr;
+    }
     return;
 }
 
