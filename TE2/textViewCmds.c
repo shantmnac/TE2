@@ -390,7 +390,10 @@ void printRange(void){
     }
     
     firstStr -> prev = NULL;
-    prevStr -> next = NULL;
+    
+    if (prevStr != NULL) {
+        prevStr -> next = NULL;
+    }
     
     lastStr -> next = NULL;
     nextStr -> prev = NULL;

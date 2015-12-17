@@ -167,5 +167,13 @@ int main(int argc, char *argv[]){
     }
     
     freeTheList();
+    if (fileName != NULL) {
+        free(fileName);
+    }
+    
+    if (parametrs != NULL) {
+        free(parametrs);
+    }
+    
     return 0;
 }

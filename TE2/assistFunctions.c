@@ -477,6 +477,8 @@ int readCmd(void){
                     tempPrev = tempCur;
                     tempCur = getchar();
                     if (tempCur == '"'){
+                        tempCur = getchar();
+                        tempPrev = tempCur;
                         while (1) {
                             if (tempCur == '\\') {
                                 tempPrev = tempCur;
