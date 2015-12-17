@@ -17,13 +17,15 @@ int exitF(void){
     int i = 0, isForceExit = 0;
     char *force = "force";
     
-    while (parametrs[i] != '\0'){
-        if (force[i] != parametrs[i]) {
-            isForceExit = 0;
-            break;
+    if (parametrs != NULL) {
+        while (parametrs[i] != '\0'){
+            if (force[i] != parametrs[i]) {
+                isForceExit = 0;
+                break;
+            }
+            isForceExit = 1;
+            i++;
         }
-        isForceExit = 1;
-        i++;
     }
     
     free(parametrs);
