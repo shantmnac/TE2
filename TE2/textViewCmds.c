@@ -407,7 +407,7 @@ void printRange(void){
     nextStr -> prev = lastStr;
     return;
 }
-+
+
 void setWrap(void){
     int i = 0;
     char yesM[3] = "yes";
@@ -448,7 +448,7 @@ void setWrap(void){
     parametrs = NULL;
     fprintf(stderr, "Некорректный параметр!\n");
 }
-+
+
 void setTabWidth(void){
     int temp;
     temp = atoi(parametrs);

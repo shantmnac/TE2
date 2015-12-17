@@ -95,6 +95,8 @@ int openF(void){
         i++;
     }
     
+    fileNameLength = 0;
+    
     while (parametrs[i] != '\0') {
         fileName = (char*)realloc(fileName, fileNameLength+1);
         if (fileName == NULL){
@@ -118,7 +120,10 @@ int openF(void){
     free(parametrs);
     parametrs = NULL;
     
-    initFile(fileName);
+    if (initFile(fileName) == 8){
+        free(fileName);
+        fileNameLength = 0;
+    }
     
     return 0;
 }
@@ -133,6 +138,8 @@ int setName(void){
     if (parametrs[i] == '"') {
         i++;
     }
+    
+    fileNameLength = 0;
     
     while (parametrs[i] != '\0') {
         fileName = (char*)realloc(fileName, fileNameLength+1);

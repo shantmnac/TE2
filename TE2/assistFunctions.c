@@ -972,29 +972,31 @@ int recognizeCmd(void){
             if (userString[symbolPosition] == ' '){
                 symbolPosition++;
             }
-            while (symbolPosition < userStringSize) {
+            if (userString[symbolPosition] != '\0') {
+                while (symbolPosition < userStringSize) {
+                    parametrs = (char*)realloc(parametrs, (parametrsLengthCounter + 1) * sizeof(char));
+                    if (parametrs == NULL) {
+                        fprintf(stderr, "Переполнение памяти!\n");
+                        free(userString);
+                        userString = NULL;
+                        return -9;
+                    }
+                    parametrs[parametrsLengthCounter] = userString[symbolPosition];
+                    parametrsLengthCounter++;
+                    symbolPosition++;
+                }
                 parametrs = (char*)realloc(parametrs, (parametrsLengthCounter + 1) * sizeof(char));
-                if (parametrs == NULL) {
+                if (parametrs == NULL){
                     fprintf(stderr, "Переполнение памяти!\n");
-                    free(userString);
-                    userString = NULL;
+                    free(parametrs);
                     return -9;
                 }
-                parametrs[parametrsLengthCounter] = userString[symbolPosition];
-                parametrsLengthCounter++;
-                symbolPosition++;
+                parametrs[parametrsLengthCounter] = '\0';
+                
+                free(userString);
+                userString = NULL;
+                return cmdNum;
             }
-            parametrs = (char*)realloc(parametrs, (parametrsLengthCounter + 1) * sizeof(char));
-            if (parametrs == NULL){
-                fprintf(stderr, "Переполнение памяти!\n");
-                free(parametrs);
-                return -9;
-            }
-            parametrs[parametrsLengthCounter] = '\0';
-            
-            free(userString);
-            userString = NULL;
-            return cmdNum;
         }
     }
         
